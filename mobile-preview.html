@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Мобильная превью · AI-Кемп</title>
+<style>
+  :root { --bg:#0E0B09; --ink:#1A1410; --paper:#FFFBF5; --orange:#E97A3A; --blue:#7FB8D9; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background: var(--bg); color: var(--paper); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  .wrap { padding: 32px 16px 64px; max-width: 1600px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 500; letter-spacing: 0.02em; margin: 0 0 6px; color: var(--paper); }
+  .sub { font-size: 13px; opacity: 0.55; letter-spacing: 0.16em; text-transform: uppercase; margin: 0 0 28px; }
+  .toolbar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px; }
+  .toolbar button {
+    background: rgba(255,251,245,0.08); color: var(--paper); border: 1px solid rgba(255,251,245,0.15);
+    padding: 8px 14px; border-radius: 9999px; font: inherit; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: background .2s, transform .15s;
+  }
+  .toolbar button:hover { background: rgba(255,251,245,0.14); }
+  .toolbar button.active { background: var(--orange); color: var(--ink); border-color: var(--orange); }
+  .stage {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(390px, 1fr));
+    gap: 28px 24px; align-items: start;
+  }
+  .device {
+    width: 100%; max-width: 420px; justify-self: center;
+    background: #1A1410; border-radius: 44px; padding: 14px;
+    box-shadow: 0 30px 50px -30px rgba(0,0,0,0.8), 0 12px 24px -10px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+    position: relative;
+  }
+  .device::before {
+    content: ''; position: absolute; top: 22px; left: 50%; transform: translateX(-50%);
+    width: 110px; height: 28px; background: #000; border-radius: 9999px; z-index: 2;
+  }
+  .screen {
+    border-radius: 32px; overflow: hidden; background: #fff;
+    position: relative; height: 760px;
+  }
+  iframe {
+    width: 100%; height: 100%; border: 0; display: block;
+    transform-origin: top left;
+  }
+  .label {
+    text-align: center; margin-top: 14px; font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; opacity: 0.55;
+  }
+  .legend {
+    margin-top: 28px; padding: 18px; border: 1px solid rgba(255,251,245,0.10);
+    border-radius: 14px; font-size: 13px; line-height: 1.55; opacity: 0.78;
+    max-width: 720px;
+  }
+  .legend b { color: var(--orange); font-weight: 500; }
+  @media (max-width: 720px) {
+    .stage { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Мобильная превью · AI-Кемп лендинг</h1>
+  <p class="sub">3 ширины · iPhone 12/13 (390) · iPhone SE (375) · Small Android (360)</p>
+
+  <div class="toolbar">
+    <button data-target="s01" class="active">[01] Hero</button>
+    <button data-target="s03">[03] AI-инструменты</button>
+    <button data-target="s09">[09] Программа</button>
+    <button data-target="s02">[02] Почему сейчас</button>
+    <button data-target="s05">[05] Отзывы</button>
+    <button data-target="s06">[06] Кейс 1</button>
+    <button data-target="s07">[07] Кейс 2</button>
+    <button data-target="s08">[08] Кейс 3</button>
+    <button data-target="s04">[04] Для кого</button>
+    <button data-target="s10">[10] Формат</button>
+    <button data-target="s13">[13] Не для всех</button>
+    <button data-target="s14">[14] Стоимость</button>
+    <button data-target="s15">[15] FAQ</button>
+    <button data-target="s16">[16] Заявка</button>
+  </div>
+
+  <div class="stage">
+    <div>
+      <div class="device" style="max-width:418px;">
+        <div class="screen" style="height:820px;">
+          <iframe data-w="390" id="f-390" src="index.html"></iframe>
+        </div>
+      </div>
+      <div class="label">390 × 820 · iPhone 12/13/14</div>
+    </div>
+    <div>
+      <div class="device" style="max-width:403px;">
+        <div class="screen" style="height:780px;">
+          <iframe data-w="375" id="f-375" src="index.html"></iframe>
+        </div>
+      </div>
+      <div class="label">375 × 780 · iPhone SE / mini</div>
+    </div>
+    <div>
+      <div class="device" style="max-width:388px;">
+        <div class="screen" style="height:760px;">
+          <iframe data-w="360" id="f-360" src="index.html"></iframe>
+        </div>
+      </div>
+      <div class="label">360 × 760 · Small Android</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    Каждый кадр — реальный <code>index.html</code>, отрендеренный в&nbsp;iframe с&nbsp;шириной мобильного устройства. Кнопки сверху прокручивают все три превью на&nbsp;соответствующую секцию.
+    <br/><b>Прокручивайте внутри</b> каждого «телефона» как на&nbsp;настоящем — touch&nbsp;/&nbsp;scroll работают.
+  </div>
+</div>
+
+<script>
+  // Apply real mobile width to each iframe so CSS media queries fire
+  function fitFrame(f) {
+    const w = parseInt(f.dataset.w, 10);
+    f.style.width = w + 'px';
+    const parent = f.parentElement;
+    const parentW = parent.clientWidth;
+    const scale = parentW / w;
+    f.style.height = (parent.clientHeight / scale) + 'px';
+    f.style.transform = 'scale(' + scale + ')';
+    f.style.transformOrigin = 'top left';
+  }
+  function fitAll() { document.querySelectorAll('iframe[data-w]').forEach(fitFrame); }
+  window.addEventListener('load', fitAll);
+  window.addEventListener('resize', fitAll);
+
+  // Scroll all frames to a section
+  document.querySelectorAll('.toolbar button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.toolbar button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const id = btn.dataset.target;
+      document.querySelectorAll('iframe[data-w]').forEach(f => {
+        try {
+          const doc = f.contentDocument || f.contentWindow.document;
+          const el = doc.getElementById(id);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } catch (e) { /* cross-origin guard */ }
+      });
+    });
+  });
+</script>
+</body>
+</html>

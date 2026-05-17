@@ -1,0 +1,3267 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AI-Кемп · Мария Андреева · Лето 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          orange:  '#E97A3A',
+          blue:    '#7FB8D9',
+          cream:   '#FFE9D5',
+          ink:     '#1A1410',
+          paper:   '#FFFBF5',
+          ochre:   '#B85320',
+          stage:   '#0E0B09',
+        },
+        fontFamily: { sans: ['Onest', 'ui-sans-serif', 'system-ui'] },
+      }
+    }
+  }
+</script>
+<style>
+  /* Brand display font */
+  @font-face {
+    font-family: 'Rodondo';
+    src: url('fonts/RodondoRUS-Regular_0.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root { --stage:#0E0B09; --ink:#1A1410; --paper:#FFFBF5; --cream:#FFE9D5; --orange:#E97A3A; --blue:#7FB8D9; --ochre:#B85320; }
+  html { scroll-behavior:smooth; }
+  section { scroll-margin-top: 32px; }
+  body { font-family:'Onest',sans-serif; background:var(--stage); color:var(--paper); -webkit-font-smoothing:antialiased; }
+
+  /* ─── Typography ─── */
+  .caps { font-size:11px; letter-spacing:0.18em; font-weight:500; text-transform:uppercase; }
+  @media (min-width:768px){ .caps { font-size:12px; } }
+  .caps-sm { font-size:10px; letter-spacing:0.2em; font-weight:500; text-transform:uppercase; }
+  .display { font-family: 'Rodondo', 'Onest', sans-serif; font-weight:400; letter-spacing:-0.015em; line-height:1.0; text-wrap:balance; }
+  .h-hero { font-size:clamp(40px,6.6vw,84px); }
+  .h-block { font-size:clamp(34px,4.8vw,60px); }
+  .h-mid { font-family: 'Rodondo', 'Onest', sans-serif; font-size:clamp(24px,2.6vw,34px); font-weight:400; letter-spacing:-0.01em; line-height:1.05; text-transform: uppercase; text-wrap: balance; }
+
+  /* ─── Outline (stencil) giant type ─── */
+  .stencil {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight:400; letter-spacing:-0.02em; line-height:0.85;
+    color:transparent;
+    -webkit-text-stroke:1px currentColor;
+    text-stroke:1px currentColor;
+    white-space:nowrap; user-select:none; pointer-events:none;
+  }
+
+  /* ─── Page-level outer frame ─── */
+  .stage-pad { padding: clamp(14px,1.6vw,28px); }
+  .block {
+    position:relative;
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .block + .block { margin-top: clamp(14px,1.6vw,28px); }
+
+  /* Section number badge */
+  .section-num {
+    position:absolute; top:18px; right:18px;
+    font-size:11px; letter-spacing:0.18em; font-weight:500;
+    opacity:.55; z-index:5;
+  }
+  @media (min-width:768px){ .section-num { top:28px; right:32px; } }
+
+  /* Technical grid: 4 corner crosshairs + thin guide column lines */
+  .grid-marks::before, .grid-marks::after,
+  .grid-marks > .gm { position:absolute; pointer-events:none; }
+  .grid-marks::before, .grid-marks::after, .grid-marks > .gm { width:14px; height:14px; }
+  .grid-marks > .gm { background-image:
+      linear-gradient(currentColor,currentColor),
+      linear-gradient(currentColor,currentColor);
+    background-size: 100% 1px, 1px 100%;
+    background-repeat:no-repeat;
+    background-position: center center;
+    opacity:.55;
+  }
+  .grid-marks .gm-tl { top:18px;  left:18px; }
+  .grid-marks .gm-tr { top:18px;  right:18px; }
+  .grid-marks .gm-bl { bottom:18px; left:18px; }
+  .grid-marks .gm-br { bottom:18px; right:18px; }
+
+  /* Top-of-section marquee with dot separators */
+  .blockstrip {
+    position:absolute; top:0; left:0; right:0;
+    border-bottom:1px solid currentColor;
+    padding: 10px 18px;
+    display:flex; align-items:center; gap:6vw;
+    opacity:.55;
+    overflow:hidden;
+    z-index:4;
+  }
+  @media (min-width:768px){ .blockstrip { padding:12px 32px; } }
+  .blockstrip span { font-size:11px; letter-spacing:0.16em; font-weight:500; text-transform:uppercase; white-space:nowrap; }
+  .blockstrip span::before { content:""; display:inline-block; width:6px; height:6px; border:1px solid currentColor; border-radius:9999px; margin-right:10px; vertical-align:1px; }
+
+  /* Marquee strip (animated blockstrip) */
+  .blockstrip.marquee-strip { padding-left:0; padding-right:0; opacity:1; gap:0; }
+  .blockstrip.marquee-strip .marquee-track {
+    display:flex; align-items:center; gap:6vw;
+    flex:none; padding-left:6vw;
+    white-space:nowrap;
+    animation: blockstrip-scroll 38s linear infinite;
+    will-change: transform;
+  }
+  .blockstrip.marquee-strip .marquee-track span {
+    font-size:11px; letter-spacing:0.16em; font-weight:500; text-transform:uppercase;
+    opacity:.65;
+  }
+  .blockstrip.marquee-strip .marquee-track span::before {
+    content:""; display:inline-block; width:6px; height:6px;
+    border:1px solid currentColor; border-radius:9999px;
+    margin-right:10px; vertical-align:1px;
+  }
+  @keyframes blockstrip-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .blockstrip.marquee-strip .marquee-track { animation: none; }
+  }
+
+  /* Toggle pill (knob inside pill, then text) */
+  .toggle {
+    position: relative;
+    display:inline-flex; align-items:center;
+    padding-left: 36px;
+    font-size:11px; letter-spacing:0.18em; font-weight:500; text-transform:uppercase;
+  }
+  .toggle::before {
+    content:"";
+    position:absolute; left:0; top:50%; transform:translateY(-50%);
+    width:26px; height:13px; border-radius:9999px;
+    background:currentColor; opacity:.35;
+  }
+  .toggle::after {
+    content:"";
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:9px; height:9px; border-radius:9999px; background:currentColor;
+  }
+
+  /* Bullets — orange circle */
+  .obul { width:14px; height:14px; border-radius:9999px; background:var(--orange); flex:none; display:inline-block; margin-top:6px; }
+
+  /* ─── Hero: portrait + giant overlay headline (reference-style) ─── */
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+  .hero-block { padding-top: 42px; }
+  .hero-stage {
+    position:relative;
+    margin: 16px 0 0;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: visible;
+  }
+  @media (max-width: 1023px) { .hero-stage { aspect-ratio: 4 / 5; } }
+  .hero-portrait {
+    position:absolute; inset:0;
+    overflow:hidden;
+    background:#B85320;
+  }
+  .hero-portrait img {
+    width:100%; height:100%;
+    object-fit:cover;
+    object-position: 50% 22%;
+    filter: saturate(1.08) contrast(1.02);
+  }
+  /* Warm orange duotone tint over the photo to match brand */
+  .hero-portrait-tone {
+    position:absolute; inset:0; pointer-events:none;
+    background:
+      linear-gradient(180deg, rgba(233,122,58,0.20) 0%, rgba(233,122,58,0.05) 30%, rgba(184,83,32,0.20) 75%, rgba(184,83,32,0.55) 100%),
+      radial-gradient(120% 80% at 50% 30%, rgba(255,200,140,0.15), rgba(184,83,32,0.00) 60%);
+    mix-blend-mode: multiply;
+  }
+  .hero-marquee {
+    position:absolute; top:0; left:0; right:0;
+    display:flex; justify-content: space-between; align-items:center;
+    padding: 14px clamp(18px,2vw,32px);
+    border-bottom: 1px solid rgba(255,251,245,0.35);
+    color:#FFFBF5; opacity:.85;
+    overflow:hidden; white-space:nowrap;
+    font-size: 12px; letter-spacing: 0.16em; font-weight:500; text-transform:uppercase;
+  }
+  .hero-marquee span::before {
+    content:""; display:inline-block; width:6px; height:6px;
+    border:1px solid currentColor; border-radius:9999px;
+    margin-right:10px; vertical-align:1px;
+  }
+  .hero-corner {
+    position:absolute; z-index:3;
+    color:#FFFBF5;
+  }
+  .hero-corner-tl { left: clamp(20px,2.4vw,40px); top: clamp(58px,5.5vw,84px); }
+  .hero-corner-tr { right: clamp(20px,2.4vw,40px); top: clamp(58px,5.5vw,84px); text-align:right; line-height:1.4; }
+  .hero-corner .toggle::before { background:#FFFBF5; opacity:.45; }
+  .hero-corner .toggle::after  { background:#FFFBF5; }
+  /* Giant headline that overlaps the bottom of the photo (like ABOUT US in ref) */
+  .hero-headline {
+    position:absolute;
+    left:0; right:0; bottom: clamp(80px, 9%, 140px);
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:flex-end;
+    pointer-events:none; user-select:none;
+    line-height: 0.82;
+    text-align:center;
+  }
+  .hero-headline span {
+    display:block;
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    color: #FFFBF5;
+    text-transform: uppercase;
+    font-size: clamp(72px, 17vw, 260px);
+    line-height: 0.82;
+    /* Subtle inner shadow so it reads on the photo */
+    text-shadow: 0 4px 36px rgba(26,20,16,0.18);
+  }
+  .hero-headline .hero-headline-1 {
+    /* small-cap secondary line above */
+    font-size: clamp(28px, 5.4vw, 84px);
+    letter-spacing: 0.0em;
+    font-weight: 400;
+    color: rgba(255,251,245,0.92);
+    margin-bottom: clamp(4px, 0.6vw, 14px);
+    text-shadow: 0 2px 18px rgba(26,20,16,0.22);
+  }
+  @media (max-width: 640px) {
+    .hero-headline { bottom: clamp(72px, 11%, 110px); }
+  }
+
+  /* ─── Mission block: full-width surf photo + overlay («riding waves of new knowledge») ─── */
+  .mission {
+    position: relative;
+    margin: clamp(40px,5vw,80px) 0 0;
+  }
+  /* Marquee at the top — like «DOORS ARE OPEN» in the reference */
+  .mission-marquee {
+    position: relative;
+    overflow: hidden;
+    background: #B85320;
+    color: #FFFBF5;
+    border-top: 1px solid rgba(255,251,245,0.25);
+    border-bottom: 1px solid rgba(255,251,245,0.25);
+  }
+  .mission-marquee-track {
+    display: inline-flex;
+    gap: clamp(28px,3vw,56px);
+    padding: 14px 0;
+    white-space: nowrap;
+    animation: missionScroll 28s linear infinite;
+    will-change: transform;
+  }
+  .mission-marquee-track span {
+    font-size: clamp(11px,1vw,13px);
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  @keyframes missionScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Photo stage — full-bleed horizontal */
+  .mission-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #7FB8D9;
+  }
+  @media (max-width: 768px) { .mission-stage { aspect-ratio: 4 / 5; } }
+  .mission-photo-full {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    display: block;
+    /* New photo is already brand-blue + orange surfboard — keep colours intact */
+    filter: saturate(1.02) brightness(1.0);
+  }
+  /* Very subtle tint — just nudges toward brand blue, doesn't muddy */
+  .mission-tint {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(127,184,217,0.06) 0%, rgba(127,184,217,0.00) 50%, rgba(15,40,55,0.05) 100%);
+    mix-blend-mode: multiply;
+  }
+  /* Editorial scrim — deepens the bottom-left so cream text is crisp */
+  .mission-scrim {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(120deg, rgba(15,40,55,0.55) 0%, rgba(15,40,55,0.32) 28%, rgba(15,40,55,0.00) 58%),
+      linear-gradient(0deg,   rgba(15,40,55,0.40) 0%, rgba(15,40,55,0.00) 50%);
+  }
+
+  /* Bottom-left overlay text */
+  .mission-overlay {
+    position: absolute;
+    inset: 0;
+    padding: clamp(28px,4.5vw,80px);
+    display: flex;
+    align-items: flex-end;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .mission-overlay-inner {
+    pointer-events: auto;
+    max-width: 62ch;
+    color: var(--paper);
+  }
+  /* Small caps eyeline with a thin rule — editorial signal */
+  .mission-eyeline {
+    display: inline-flex; align-items: center; gap: 14px;
+    font-family: 'Onest', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper);
+    opacity: 0.92;
+    margin-bottom: clamp(20px,2vw,32px);
+  }
+  .mission-eyeline-line {
+    width: clamp(28px,4vw,56px);
+    height: 1px;
+    background: var(--paper);
+    opacity: 0.7;
+    flex: none;
+    display: inline-block;
+  }
+  /* Headline — mixed weight: bold sans + italic serif for editorial flair (Vogue/Kinfolk style) */
+  .mission-bigtitle {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    font-size: clamp(52px, 8.4vw, 140px);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--paper);
+    margin-bottom: clamp(22px,2.4vw,38px);
+  }
+  .mission-bigtitle > span { display: block; }
+  /* Second line in italic serif — like «legit HELP YOU GROW» in the reference */
+  .mission-bigtitle-2 em {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: -0.02em;
+    font-size: 1.02em;
+  }
+  /* Body line with the orange marker highlight on the strong phrase */
+  .mission-sub {
+    font-family: 'Onest', sans-serif;
+    font-size: clamp(22px,2.2vw,32px);
+    line-height: 1.32;
+    color: var(--paper);
+    max-width: 28ch;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .mission-sub mark {
+    background: transparent;
+    color: var(--orange);
+    font-weight: 700;
+    padding: 0;
+  }
+
+  @media (max-width: 640px) {
+    .mission-overlay { align-items: flex-end; padding: 24px; }
+    .mission-bigtitle { font-size: clamp(40px,13vw,72px); }
+  }
+
+  /* Photo card with mini-thumb overlay (Instagram-style "polaroid stack") */
+  .photo-card { position:relative; overflow:hidden; }
+  .ig-strip {
+    position:absolute; top:14px; left:14px; right:14px;
+    display:flex; gap:14px; align-items:center;
+    font-size:12px; color:#fff; mix-blend-mode:normal;
+    text-shadow: 0 1px 6px rgba(0,0,0,.25);
+  }
+  .ig-strip svg { width:16px; height:16px; opacity:.95; }
+  .mini-stack {
+    position:absolute; left:24px; bottom:60px;
+    display:flex; gap:14px;
+  }
+  .mini { width:78px; height:78px; overflow:hidden; box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 8px 18px rgba(0,0,0,.18); border:3px solid #FFFBF5;}
+  .mini img { width:100%; height:100%; object-fit:cover; }
+
+  /* Buttons */
+  .btn { display:inline-flex; align-items:center; gap:12px; padding:16px 26px; font-weight:600; font-size:15px; border-radius:9999px; transition: transform .18s ease, background .18s ease, color .18s ease; }
+  .btn .arr { transition: transform .18s ease; display:inline-block; }
+  .btn:hover .arr { transform: translateX(5px); }
+  .btn-dark { background:#1A1410; color:#FFFBF5; }
+  .btn-dark:hover { background:#000; transform:translateY(-2px); }
+  .btn-orange { background:var(--orange); color:#1A1410; }
+  .btn-orange:hover { background:#ee8a4d; transform:translateY(-2px); }
+  .btn-paper { background:#FFFBF5; color:#1A1410; }
+  .btn-paper:hover { background:#fff; transform:translateY(-2px); }
+
+  /* Cards */
+  .card-paper { background:var(--paper); color:var(--ink); border:1px solid rgba(26,20,16,0.10); }
+  .card-cream { background:var(--cream); color:var(--ink); border:1px solid rgba(26,20,16,0.10); }
+  .card-orange { background:var(--orange); color:var(--ink); }
+  .hairline { border-color:rgba(26,20,16,.15); }
+  .hairline-dark { border-color:rgba(255,251,245,.18); }
+
+  /* ─── Radial \"why us\" layout (s03) — inspired by cosmetology studio reference ─── */
+  .radial {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0,1fr) minmax(280px, 38%) minmax(0,1fr);
+    grid-template-rows: auto auto;
+    gap: clamp(28px, 4vw, 60px) clamp(20px, 3vw, 48px);
+    align-items: stretch;
+    min-height: clamp(560px, 60vw, 760px);
+  }
+  /* Center column: spans both rows, rings + title */
+  .radial-center {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    position: relative;
+    display: grid;
+    place-items: center;
+    color: var(--ink);
+    min-height: clamp(360px, 42vw, 560px);
+  }
+  .radial-rings {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    color: var(--ink);
+  }
+  .radial-title {
+    position: relative;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center;
+    z-index: 2;
+  }
+  .radial-title .display {
+    font-size: clamp(40px, 5.4vw, 80px);
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  /* Cards in 4 quadrants */
+  .radial-card {
+    background: rgba(255,251,245,0.55);
+    border: 1px solid rgba(26,20,16,0.10);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: clamp(22px, 2vw, 30px) clamp(22px, 2vw, 30px) clamp(22px, 2vw, 28px);
+    border-radius: 18px;
+    max-width: 36ch;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(56px, 6vw, 88px);
+    box-shadow: 0 18px 36px -28px rgba(15,30,45,0.30);
+  }
+  .radial-tl { grid-column: 1 / 2; grid-row: 1 / 2; justify-self: end; align-self: end; }
+  .radial-bl { grid-column: 1 / 2; grid-row: 2 / 3; justify-self: end; align-self: start; }
+  .radial-tr { grid-column: 3 / 4; grid-row: 1 / 2; justify-self: start; align-self: end; }
+  .radial-br { grid-column: 3 / 4; grid-row: 2 / 3; justify-self: start; align-self: start; }
+
+  .rc-head {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 18px;
+  }
+  .rc-head h3 {
+    font-family: 'Onest', sans-serif;
+    font-weight: 600;
+    font-size: clamp(20px, 1.6vw, 24px);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    max-width: 18ch;
+  }
+  .rc-num {
+    font-size: 11px; letter-spacing: 0.18em; font-weight: 500;
+    color: var(--ink);
+    text-transform: uppercase;
+    flex: none;
+    white-space: nowrap;
+  }
+  .rc-num span { opacity: .45; }
+  .radial-card p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: rgba(26,20,16,0.78);
+  }
+
+  @media (max-width: 1023px) {
+    .radial {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto auto auto;
+      min-height: 0;
+      gap: clamp(20px,3vw,32px);
+    }
+    .radial-center { grid-column: 1; grid-row: 3; min-height: 280px; padding: 32px 0; }
+    .radial-tl, .radial-tr, .radial-bl, .radial-br {
+      grid-column: 1;
+      justify-self: stretch; align-self: stretch;
+      max-width: none;
+    }
+    .radial-tl { grid-row: 1; }
+    .radial-tr { grid-row: 2; }
+    .radial-bl { grid-row: 4; }
+    .radial-br { grid-row: 5; }
+  }
+
+  /* Form */
+  .field { display:block; width:100%; background:transparent; border:none; border-bottom:1px solid rgba(26,20,16,.4); padding:16px 0; font-size:17px; font-family:inherit; color:var(--ink); outline:none; transition: border-color .2s ease; }
+  .field::placeholder { color:rgba(26,20,16,.4); }
+  .field:focus { border-color:var(--ink); }
+
+  /* FAQ */
+  details { border-top:1px solid rgba(26,20,16,.18); }
+  details:last-of-type { border-bottom:1px solid rgba(26,20,16,.18); }
+  details > summary { list-style:none; cursor:pointer; padding:22px 0; display:flex; gap:24px; align-items:flex-start; justify-content:space-between; font-family: 'Rodondo', 'Onest', sans-serif; font-weight:400; font-size:clamp(20px,1.8vw,26px); line-height:1.15; letter-spacing:-0.005em; text-transform: uppercase; }
+  details > summary::-webkit-details-marker { display:none; }
+  details > summary .ic { flex:none; width:30px; height:30px; border:1px solid var(--ink); border-radius:9999px; display:grid; place-items:center; font-weight:400; transition: transform .25s ease, background .25s ease, color .25s ease; }
+  details[open] > summary .ic { background:var(--ink); color:var(--paper); transform: rotate(45deg); }
+  details .ans { padding: 0 56px 26px 0; color: rgba(26,20,16,.78); line-height:1.6; font-size:16px; max-width:64ch; }
+
+  /* Horizontal scroll */
+  .scroll-x { overflow-x:auto; scrollbar-width: thin; }
+  .scroll-x::-webkit-scrollbar { height:6px; }
+  .scroll-x::-webkit-scrollbar-thumb { background: rgba(26,20,16,.2); border-radius:3px; }
+
+  /* Block padding */
+  .blockpad { padding: clamp(72px,9vw,128px) clamp(22px,5vw,72px) clamp(48px,6vw,80px); }
+  .blockpad-sm { padding: clamp(56px,7vw,96px) clamp(22px,5vw,72px) clamp(40px,5vw,64px); }
+
+  /* Link */
+  a.ulink { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  a.ulink:hover { text-decoration-thickness: 2px; }
+
+  /* Ribbon flourish (decorative) */
+  .ribbon {
+    position:absolute; pointer-events:none; user-select:none;
+    background: linear-gradient(90deg, #f4a8a0 0%, #ec7e76 50%, #f4a8a0 100%);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    border-radius: 3px;
+  }
+
+  /* Plus dividers */
+  .plus { width:14px; height:14px; background:
+      linear-gradient(currentColor,currentColor) center/100% 1px no-repeat,
+      linear-gradient(currentColor,currentColor) center/1px 100% no-repeat;
+    display:inline-block;
+  }
+
+  /* ─── Quote section (s05) ─── */
+  .tested-section {
+    position: relative;
+    overflow: hidden;
+    min-height: clamp(640px, 86vh, 920px);
+  }
+  .tested-bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 15% center;
+    filter: grayscale(15%) contrast(1.02);
+  }
+  .tested-bg-scrim {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg,
+        rgba(26,20,16,0.05) 0%,
+        rgba(26,20,16,0.05) 35%,
+        rgba(26,20,16,0.40) 55%,
+        rgba(26,20,16,0.75) 85%,
+        rgba(26,20,16,0.88) 100%),
+      linear-gradient(180deg, rgba(26,20,16,0.25) 0%, rgba(26,20,16,0.00) 25%, rgba(26,20,16,0.00) 55%, rgba(26,20,16,0.65) 100%);
+  }
+  .tested-corner-tl, .tested-corner-tr {
+    position: absolute;
+    top: clamp(46px, 5vw, 70px);
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,251,245,0.85);
+    font-weight: 500;
+    z-index: 3;
+  }
+  .tested-corner-tl { left: clamp(22px, 5vw, 56px); }
+  .tested-corner-tr { right: clamp(22px, 5vw, 56px); }
+  .tested-pad {
+    position: relative;
+    z-index: 2;
+    padding: clamp(110px, 11vw, 160px) clamp(22px, 5vw, 72px) clamp(160px, 16vw, 220px);
+    display: flex;
+    justify-content: flex-end;
+  }
+  .review-stack {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 1.4vw, 20px);
+    width: 100%;
+    max-width: 460px;
+  }
+  @media (max-width: 900px) {
+    .tested-bg { object-position: 25% 20%; }
+    .tested-bg-scrim {
+      background:
+        linear-gradient(180deg,
+          rgba(26,20,16,0.10) 0%,
+          rgba(26,20,16,0.40) 50%,
+          rgba(26,20,16,0.85) 100%);
+    }
+    .tested-pad { justify-content: stretch; padding-bottom: clamp(180px, 22vw, 240px); }
+    .review-stack { max-width: 100%; }
+  }
+
+  /* Single-line bottom headline */
+  .tested-headline {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: clamp(40px, 4vw, 64px);
+    z-index: 2;
+    padding: 0 clamp(22px, 5vw, 72px);
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    font-size: clamp(28px, 3.6vw, 56px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: #FFFBF5;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+  }
+  @media (max-width: 900px) {
+    .tested-headline {
+      white-space: normal;
+      font-size: clamp(28px, 7vw, 44px);
+      line-height: 1.05;
+    }
+  }
+
+  .review-card {
+    background: #FFFBF5;
+    color: #1A1410;
+    border-radius: 22px;
+    padding: 18px 20px 14px;
+    box-shadow: 0 22px 40px -22px rgba(0,0,0,0.55), 0 10px 20px -12px rgba(0,0,0,0.35);
+    font-family: 'Onest', sans-serif;
+  }
+  .review-head {
+    display: grid;
+    grid-template-columns: 38px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .review-avatar {
+    width: 38px; height: 38px;
+    border-radius: 9999px;
+    background: #E97A3A;
+    color: #1A1410;
+    display: grid; place-items: center;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .review-meta { line-height: 1.2; }
+  .review-name { font-weight: 600; font-size: 14.5px; color: #1A1410; }
+  .review-sub { font-size: 11.5px; color: rgba(26,20,16,0.55); margin-top: 2px; }
+  .review-stars {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: #E97A3A;
+    white-space: nowrap;
+    text-align: right;
+    line-height: 1.2;
+  }
+  .review-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(26,20,16,0.85);
+  }
+  .review-foot {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(26,20,16,0.08);
+    display: flex;
+    gap: 18px;
+    color: rgba(26,20,16,0.55);
+    font-size: 13px;
+  }
+  .review-icon b {
+    font-weight: 600;
+    color: rgba(26,20,16,0.7);
+    margin-left: 3px;
+  }
+
+  /* ─── Case 1 section (s06) ─── */
+  .case-section { position: relative; padding-bottom: 0; }
+
+  /* Phone-card mock in case hero (echoes tools section) */
+  .case-phone {
+    --phone-radius: 36px;
+    background: #FFFBF5;
+    border-radius: var(--phone-radius);
+    padding: 12px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.6) inset,
+      0 24px 44px -28px rgba(15, 30, 45, 0.35),
+      0 8px 16px -10px rgba(15, 30, 45, 0.2);
+    border: 1px solid rgba(26,20,16,0.06);
+    width: 100%;
+    max-width: 460px;
+    margin-left: auto;
+  }
+  .case-screen {
+    position: relative;
+    border-radius: calc(var(--phone-radius) - 12px);
+    overflow: hidden;
+    background: #FFE9D5;
+    aspect-ratio: 4 / 5;
+  }
+  .case-screen img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .case-chip {
+    position: absolute;
+    top: 14px; left: 14px;
+    background: rgba(255, 251, 245, 0.92);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    padding: 7px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: #1A1410;
+    z-index: 2;
+  }
+
+  /* Before/After cards — soft 22px radius family from s05 */
+  .case-card {
+    border-radius: 22px;
+    padding: clamp(28px, 2.6vw, 40px) clamp(26px, 2.4vw, 38px) clamp(26px, 2.4vw, 36px);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 40px -28px rgba(15,30,45,0.22), 0 8px 18px -10px rgba(15,30,45,0.10);
+  }
+  .case-card-paper {
+    background: #FFFBF5;
+    color: #1A1410;
+    border: 1px solid rgba(26,20,16,0.08);
+  }
+  .case-card-blue {
+    background: #7FB8D9;
+    color: #1A1410;
+  }
+  .case-card-blue .case-card-head { border-bottom-color: rgba(26,20,16,0.20); }
+  .case-card-ink {
+    background: #1A1410;
+    color: #FFFBF5;
+  }
+  .case-card-ink .case-card-head { border-bottom-color: rgba(255,251,245,0.18); }
+  .case-card-ink .case-list > li { border-top-color: rgba(255,251,245,0.10); font-size: 16px; color: rgba(255,251,245,0.92); }
+  .case-card-ink .case-list > li:first-child { border-top: none; }
+  .case-card-ink .case-foot { color: rgba(255,251,245,0.65); border-top-color: rgba(255,251,245,0.18); }
+
+  /* Bright equation banner inside the blue card */
+  .case-equation {
+    margin-top: auto;
+    background: #E97A3A;
+    color: #1A1410;
+    border-radius: 14px;
+    padding: clamp(18px, 1.8vw, 24px) clamp(22px, 2vw, 28px);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    box-shadow: 0 18px 30px -22px rgba(15, 30, 45, 0.35), 0 4px 10px rgba(184,83,32,0.18);
+    margin-top: 26px;
+  }
+  .case-eq-line {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    font-size: clamp(18px, 1.6vw, 24px);
+    line-height: 1.0;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .case-eq-line-final {
+    background: #1A1410;
+    color: #FFFBF5;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    font-size: clamp(18px, 1.7vw, 26px);
+  }
+  .case-eq-mark {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-size: clamp(22px, 2vw, 30px);
+    line-height: 1;
+    color: #1A1410;
+    opacity: .55;
+    font-weight: 400;
+  }
+  .case-equation-dark {
+    background: #E97A3A;
+    margin-top: 26px;
+  }
+
+  /* Editorial big-number cell — number stacked over label + description */
+  .case-bignum-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .case-bignum {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    font-size: clamp(64px, 8.4vw, 128px);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: #1A1410;
+    text-transform: uppercase;
+  }
+
+  /* Phone-mock as link variant */
+  .case-phone-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+  .case-phone-link:hover {
+    transform: translateY(-3px) rotate(-.3deg);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.7) inset,
+      0 32px 50px -28px rgba(15, 30, 45, 0.45),
+      0 10px 20px -10px rgba(15, 30, 45, 0.22);
+  }
+  .case-phone-cta {
+    position: absolute;
+    bottom: 14px; left: 14px; right: 14px;
+    z-index: 2;
+    background: rgba(26,20,16,0.85);
+    color: #FFFBF5;
+    border-radius: 9999px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .3s ease, transform .3s ease;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  .case-phone-cta svg { width: 13px; height: 13px; }
+  .case-phone-link:hover .case-phone-cta { opacity: 1; transform: translateY(0); }
+
+  /* Big editorial pull-quote for the customer's question */
+  .case-bigquote {
+    position: relative;
+    padding-left: clamp(48px, 6vw, 90px);
+    max-width: 70ch;
+  }
+  .case-bigquote p {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    font-size: clamp(28px, 3.4vw, 50px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #1A1410;
+    text-transform: none;
+    margin: 0;
+  }
+  .case-bigquote p em {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-style: italic;
+    color: #1A1410;
+    background: rgba(26,20,16,0.08);
+    padding: 0 4px;
+  }
+  .case-bigquote-mark {
+    position: absolute;
+    left: 0; top: -12px;
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-size: clamp(80px, 9vw, 140px);
+    line-height: 0.55;
+    color: #1A1410;
+    opacity: 0.85;
+    user-select: none;
+  }
+  .case-card-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(26,20,16,0.12);
+  }
+  .case-card-blue .case-card-head { border-bottom-color: rgba(26,20,16,0.20); }
+
+  .case-list {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .case-list > li {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 12px 0;
+    border-top: 1px solid rgba(26,20,16,0.08);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .case-list > li:first-child { border-top: none; padding-top: 4px; }
+  .case-li-num {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    color: #B85320;
+    text-transform: uppercase;
+    width: 24px;
+    flex: none;
+    margin-top: 3px;
+  }
+  .case-list-light > li {
+    border-top-color: rgba(255,251,245,0.10);
+    font-size: 16px;
+    color: rgba(255,251,245,0.92);
+  }
+  .case-list-light > li:first-child { border-top: none; padding-top: 4px; }
+  .case-foot {
+    margin-top: auto;
+    padding-top: 22px;
+    border-top: 1px solid rgba(26,20,16,0.12);
+    font-size: 15px;
+    color: rgba(26,20,16,0.65);
+    font-style: italic;
+    line-height: 1.45;
+  }
+  .case-foot-light {
+    border-top-color: rgba(255,251,245,0.18);
+    color: #FFFBF5;
+    font-style: normal;
+    font-weight: 600;
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.4;
+  }
+
+  /* Smart catalog steps */
+  .case-step {
+    background: #FFFBF5;
+    border: 1px solid rgba(26,20,16,0.10);
+    border-radius: 18px;
+    padding: 22px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .case-step:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 22px 36px -28px rgba(15,30,45,0.30);
+  }
+  .case-step-letter {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    font-size: clamp(48px, 4.6vw, 64px);
+    line-height: 0.85;
+    color: #E97A3A;
+  }
+  .case-step-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    color: #B85320;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(26,20,16,0.12);
+    padding-top: 12px;
+  }
+  .case-step p {
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: rgba(26,20,16,0.82);
+  }
+
+  /* Comparison table — editorial hairlines */
+  .case-table {
+    border-top: 1px solid rgba(26,20,16,0.30);
+    border-bottom: 1px solid rgba(26,20,16,0.30);
+  }
+  .case-thead, .case-row {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: 24px;
+    padding: 18px 4px;
+    align-items: center;
+  }
+  .case-thead {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #1A1410;
+    border-bottom: 1px solid rgba(26,20,16,0.20);
+  }
+  .case-row + .case-row, .case-tbody .case-row:first-child {
+    border-top: 1px solid rgba(26,20,16,0.10);
+  }
+  .case-tbody .case-row { font-size: 15px; line-height: 1.4; }
+
+  /* Bottom one-line headline */
+  .case-bottom-headline {
+    position: static;
+    padding: clamp(48px, 5vw, 72px) clamp(22px, 5vw, 72px) clamp(56px, 6vw, 80px);
+    margin: 0 auto;
+    max-width: 1080px;
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    font-size: clamp(24px, 2.8vw, 44px);
+    line-height: 1.0;
+    letter-spacing: -0.015em;
+    color: #1A1410;
+    text-transform: uppercase;
+    text-align: center;
+    text-wrap: balance;
+  }
+  /* Softer multiline variant for longer conversational closers */
+  .case-bottom-headline-soft {
+    text-transform: none;
+    font-size: clamp(20px, 2.0vw, 30px);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    max-width: 1080px;
+    margin: 0 auto;
+    text-wrap: pretty;
+    text-align: left;
+    position: static;
+    padding: clamp(32px, 4vw, 56px) clamp(22px, 5vw, 72px) clamp(56px, 6vw, 80px);
+  }
+  .case-bottom-headline-soft .text-ink { color: inherit; }
+
+  /* Stop-list X marker for s13 */
+  .not-x {
+    color: #ff7a6f;
+    font-size: 20px;
+    line-height: 1;
+    width: 24px;
+    flex: none;
+    margin-top: 3px;
+    font-weight: 600;
+  }
+  .not-quote {
+    font-style: italic;
+    opacity: 0.85;
+  }
+
+  /* FAQ stack — paper card wrapping all details */
+  .faq-stack {
+    background: #FFFBF5;
+    border-radius: 22px;
+    padding: 6px 30px;
+    box-shadow: 0 24px 40px -28px rgba(15,30,45,0.22), 0 8px 18px -10px rgba(15,30,45,0.10);
+  }
+  .faq-stack details { border-top: 1px solid rgba(26,20,16,0.10); }
+  .faq-stack details:first-of-type { border-top: none; }
+  .faq-stack details:last-of-type { border-bottom: none; }
+
+  /* Final CTA form, styled as a paper case-card */
+  .case-form {
+    background: #FFFBF5;
+    color: #1A1410;
+    border: 1px solid rgba(26,20,16,0.08);
+    border-radius: 22px;
+    padding: clamp(28px, 2.6vw, 40px) clamp(26px, 2.4vw, 38px) clamp(26px, 2.4vw, 36px);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 40px -28px rgba(15,30,45,0.22), 0 8px 18px -10px rgba(15,30,45,0.10);
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Tool card «TOP» badge (top right) — used on cards 02 and 06 */
+  .tool-top {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 4;
+    background: #E97A3A;
+    color: #FFFBF5;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 14px -6px rgba(184,83,32,0.5);
+  }
+  /* Hide the generic expand icon on «TOP» cards — the badge takes that slot */
+  .tool-phone.is-top .tool-expand { display: none; }
+
+  /* ─── s02 check-list ─── */
+  .why-check-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+  .why-check-list li { display: flex; align-items: flex-start; gap: 14px; font-size: 17px; line-height: 1.45; color: #1A1410; }
+  .why-check {
+    display: inline-grid;
+    place-items: center;
+    width: 26px; height: 26px;
+    border-radius: 9999px;
+    background: #E97A3A;
+    color: #FFFBF5;
+    font-size: 13px;
+    font-weight: 700;
+    flex: none;
+    margin-top: 1px;
+  }
+  .why-mark {
+    background: transparent;
+    color: #B85320;
+    padding: 0;
+    text-decoration: underline;
+    text-decoration-color: #E97A3A;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 6px;
+  }
+  .treat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: clamp(20px, 2vw, 32px);
+  }
+  @media (max-width: 760px) { .treat-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; } }
+  .treat-card {
+    --phone-radius: 36px;
+    background: #FFFBF5;
+    border-radius: var(--phone-radius);
+    padding: 12px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.6) inset,
+      0 22px 40px -28px rgba(15, 30, 45, 0.35),
+      0 6px 14px -8px rgba(15, 30, 45, 0.18);
+    border: 1px solid rgba(26,20,16,0.06);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .treat-card:hover {
+    transform: translateY(-3px) rotate(-.3deg);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.7) inset,
+      0 32px 50px -28px rgba(15, 30, 45, 0.45),
+      0 10px 20px -10px rgba(15, 30, 45, 0.22);
+  }
+  .treat-card:nth-child(even):hover { transform: translateY(-3px) rotate(.3deg); }
+  .treat-card .case-screen { aspect-ratio: 4 / 5; border-radius: calc(var(--phone-radius) - 12px); overflow: hidden; }
+  .treat-content {
+    padding: 18px 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .treat-line {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    font-size: clamp(20px, 1.6vw, 26px);
+    line-height: 1.0;
+    color: #1A1410;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  @media (max-width: 760px) {
+    .case-bottom-headline { padding: 40px 22px 0; font-size: clamp(22px, 6vw, 32px); }
+    .case-section { padding-bottom: 0; }
+  }
+
+  .pol-card { background:#FFFBF5; color:var(--ink); padding:10px 10px 20px; box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 18px 30px -22px rgba(0,0,0,.25); }
+  .pol-card .pol-img { aspect-ratio:1; background:var(--cream); display:grid; place-items:center; color:rgba(26,20,16,.4); font-size:11px; letter-spacing:.18em; text-transform:uppercase; padding:12px; text-align:center; }
+
+  /* ─── [09] Programme lesson cards ─── */
+  .l-date {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    font-size: clamp(48px, 5vw, 64px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-top: -6px;
+  }
+  .l-date .l-time {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-size: clamp(22px, 2vw, 30px);
+    opacity: 0.6;
+    letter-spacing: -0.01em;
+  }
+  .l-title {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    font-size: clamp(22px, 1.8vw, 28px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  /* ─── [03] 8 AI-инструментов — phone-mockup gallery ─── */
+  .tools-section { position: relative; }
+  .tools-tag {
+    position: absolute;
+    top: clamp(28px, 3vw, 44px);
+    left: clamp(22px, 5vw, 72px);
+    font-size: 13px;
+    color: #1A1410;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 500;
+    z-index: 6;
+  }
+  .tools-headline {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    font-size: clamp(64px, 9vw, 112px);
+    color: #1A1410;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    max-width: 1100px;
+    text-wrap: balance;
+    text-transform: uppercase;
+  }
+  .tools-sub {
+    font-family: 'Onest', sans-serif;
+    font-size: 20px;
+    color: rgba(26, 20, 16, 0.75);
+    max-width: 640px;
+    line-height: 1.5;
+    margin-top: 24px;
+  }
+  .tools-grid {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    gap: clamp(24px, 2vw, 36px);
+    align-items: stretch;
+  }
+  @media (max-width: 1100px) { .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px)  { .tools-grid { grid-template-columns: 1fr; max-width: 360px; margin-left:auto; margin-right:auto; } }
+
+  /* ─── Phone-shaped card ─── */
+  .tool-phone {
+    --phone-radius: 36px;
+    position: relative;
+    background: #FFFBF5;
+    border-radius: var(--phone-radius);
+    padding: 12px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.6) inset,
+      0 22px 40px -28px rgba(15, 30, 45, 0.35),
+      0 6px 14px -8px rgba(15, 30, 45, 0.18);
+    cursor: pointer;
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;
+    border: 1px solid rgba(26,20,16,0.06);
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+  .tool-phone:hover {
+    transform: translateY(-6px) rotate(-.4deg);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.7) inset,
+      0 32px 50px -28px rgba(15, 30, 45, 0.45),
+      0 10px 20px -10px rgba(15, 30, 45, 0.22);
+  }
+  .tool-phone:nth-child(even):hover { transform: translateY(-6px) rotate(.4deg); }
+  .tool-phone:focus-visible {
+    outline: 2px solid #1A1410;
+    outline-offset: 4px;
+  }
+
+  /* Screen — clipped content */
+  .tool-screen {
+    position: relative;
+    border-radius: calc(var(--phone-radius) - 12px);
+    overflow: hidden;
+    background: #FFE9D5;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  /* Top 70% — photo */
+  .tool-photo {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    flex: none;
+    background:
+      repeating-linear-gradient(135deg,
+        rgba(26,20,16,0.04) 0 10px,
+        rgba(26,20,16,0.00) 10px 20px),
+      linear-gradient(180deg, #FFE9D5 0%, #f5d7b5 100%);
+    display: grid;
+    place-items: center;
+    padding: 22px;
+    color: rgba(26, 20, 16, 0.55);
+    overflow: hidden;
+  }
+  .tool-photo img, .tool-photo video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  /* Image-as-link overlay (used on card 07) */
+  .tool-link {
+    position: absolute; inset: 0; z-index: 3;
+    display: grid; place-items: center;
+    color: #FFFBF5;
+    text-decoration: none;
+    background: rgba(0,0,0,0);
+    transition: background .25s ease;
+  }
+  .tool-link-label {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .3s ease, transform .3s ease;
+    padding: 11px 22px;
+    border: 1px solid rgba(255,251,245,0.85);
+    border-radius: 9999px;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #FFFBF5;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: rgba(26,20,16,0.45);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tool-link-label svg { width: 13px; height: 13px; }
+  .tool-phone:hover .tool-link { background: rgba(15,30,45,0.40); }
+  .tool-phone:hover .tool-link .tool-link-label { opacity: 1; transform: translateY(0); }
+  .tool-link:focus-visible { outline: 2px solid #FFFBF5; outline-offset: -4px; }
+  .tool-link:focus-visible .tool-link-label { opacity: 1; transform: translateY(0); }
+
+  /* Prompt overlay (used on card 08 — video + AI prompt text as code) */
+  .tool-prompt {
+    position: absolute;
+    left: 12px; right: 12px; bottom: 12px;
+    z-index: 2;
+    background: rgba(20, 16, 12, 0.78);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: #FFFBF5;
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 9.5px;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+    border: 1px solid rgba(255,251,245,0.10);
+    box-shadow: 0 12px 28px -20px rgba(0,0,0,0.6);
+    pointer-events: none;
+  }
+  .tool-prompt-label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 8.5px; letter-spacing: 0.18em; font-weight: 600;
+    text-transform: uppercase;
+    color: #E97A3A;
+    margin-bottom: 6px;
+  }
+  .tool-prompt-label::before {
+    content: '●'; font-size: 7px; color: #E97A3A;
+  }
+  .tool-prompt-text {
+    color: rgba(255,251,245,0.92);
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .tool-prompt-bracket {
+    color: #E97A3A;
+    font-weight: 700;
+    padding-right: 3px;
+  }
+  .tool-prompt-bracket-close {
+    color: #E97A3A;
+    font-weight: 700;
+    padding-left: 3px;
+  }
+  /* Fullscreen overlay: larger prompt */
+  .tools-overlay .tool-prompt {
+    left: 18px; right: 18px; bottom: 18px;
+    padding: 16px 18px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    border-radius: 18px;
+  }
+  .tools-overlay .tool-prompt-label {
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
+  .tools-overlay .tool-prompt-text {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    display: block;
+  }
+  .tool-photo-hint {
+    position: relative;
+    font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-wrap: balance;
+    color: rgba(26, 20, 16, 0.55);
+  }
+  /* Number chip on photo */
+  .tool-chip {
+    position: absolute;
+    top: 14px; left: 14px;
+    background: rgba(255, 251, 245, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 7px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: #1A1410;
+    z-index: 2;
+  }
+  /* Expand pill on photo */
+  .tool-expand {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 36px; height: 36px;
+    border-radius: 9999px;
+    background: rgba(26, 20, 16, 0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: grid; place-items: center;
+    color: #FFFBF5;
+    z-index: 2;
+    transition: transform .25s ease, background .25s ease;
+  }
+  .tool-phone:hover .tool-expand { background: #1A1410; transform: scale(1.06); }
+  .tool-expand svg { width: 16px; height: 16px; }
+
+  /* Bottom — content */
+  /* Bottom 30% — content */
+  .tool-content {
+    padding: 18px 18px 20px;
+    background: #FFFBF5;
+    color: #1A1410;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+  .tool-title {
+    font-family: 'Rodondo', 'Onest', sans-serif;
+    font-weight: 400;
+    font-size: clamp(22px, 1.6vw, 28px);
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    color: #1A1410;
+    text-wrap: balance;
+    text-transform: uppercase;
+  }
+  .tool-desc {
+    font-family: 'Onest', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: rgba(26, 20, 16, 0.72);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Subtle alternating tints to feel less monotone */
+  .tool-phone:nth-child(4n+1) .tool-photo { background: linear-gradient(180deg, #FFE9D5 0%, #f5d7b5 100%); }
+  .tool-phone:nth-child(4n+2) .tool-photo { background: linear-gradient(180deg, #FFD9C0 0%, #f0b896 100%); }
+  .tool-phone:nth-child(4n+3) .tool-photo { background: linear-gradient(180deg, #E8E0F5 0%, #cdc1e8 100%); }
+  .tool-phone:nth-child(4n+4) .tool-photo { background: linear-gradient(180deg, #D7E8F2 0%, #b5d2e6 100%); }
+
+  /* ─── Fullscreen overlay (click to expand) ─── */
+  .tools-overlay {
+    position: fixed; inset: 0;
+    background: rgba(127, 184, 217, 0.0);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    z-index: 200;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 40px 20px;
+    transition: background .35s ease, backdrop-filter .35s ease;
+  }
+  .tools-overlay.open { display: flex; }
+  .tools-overlay.shown { background: rgba(20, 30, 40, 0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+  .tools-overlay-inner {
+    position: relative;
+    width: min(420px, 100%);
+    max-height: 92vh;
+    opacity: 0;
+    transform: scale(.92) translateY(20px);
+    transition: opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1);
+  }
+  .tools-overlay.shown .tools-overlay-inner { opacity: 1; transform: scale(1) translateY(0); }
+  .tools-overlay .tool-phone {
+    cursor: default;
+    transform: none !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.7) inset,
+      0 40px 80px -20px rgba(0,0,0,0.55),
+      0 16px 30px -16px rgba(0,0,0,0.35);
+    --phone-radius: 44px;
+  }
+  .tools-overlay .tool-photo { aspect-ratio: 4 / 5; }
+  .tools-overlay .tool-title { font-size: clamp(30px, 3vw, 38px); }
+  .tools-overlay .tool-desc { font-size: 16px; line-height: 1.55; -webkit-line-clamp: unset; overflow: visible; display: block; }
+  .tools-overlay .tool-content { padding: 22px 22px 26px; gap: 12px; }
+
+  .tools-close {
+    position: absolute;
+    top: -54px; right: 0;
+    width: 44px; height: 44px;
+    border-radius: 9999px;
+    background: rgba(255,251,245,0.95);
+    color: #1A1410;
+    display: grid; place-items: center;
+    border: none; cursor: pointer;
+    transition: transform .2s ease, background .2s ease;
+  }
+  .tools-close:hover { transform: scale(1.08); background: #fff; }
+  .tools-close svg { width: 18px; height: 18px; }
+
+  .tools-nav {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    width: 52px; height: 52px;
+    border-radius: 9999px;
+    background: rgba(255,251,245,0.95);
+    color: #1A1410;
+    display: grid; place-items: center;
+    border: none; cursor: pointer;
+    transition: transform .2s ease, background .2s ease;
+    z-index: 1;
+  }
+  .tools-nav:hover { background: #fff; }
+  .tools-nav.prev { left: max(20px, calc(50vw - 320px)); }
+  .tools-nav.next { right: max(20px, calc(50vw - 320px)); }
+  .tools-nav:hover.prev { transform: translateY(-50%) translateX(-3px); }
+  .tools-nav:hover.next { transform: translateY(-50%) translateX(3px); }
+  .tools-nav svg { width: 20px; height: 20px; }
+  @media (max-width: 760px) {
+    .tools-nav { width: 44px; height: 44px; }
+    .tools-nav.prev { left: 14px; }
+    .tools-nav.next { right: 14px; }
+  }
+
+  /* Counter pill */
+  .tools-counter {
+    position: absolute;
+    bottom: -44px; left: 50%; transform: translateX(-50%);
+    font-size: 12px; letter-spacing: 0.18em; font-weight: 500;
+    color: #FFFBF5; opacity: .85;
+    text-transform: uppercase;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tool-phone, .tool-phone:hover, .tools-overlay, .tools-overlay-inner { transition: none; }
+  }
+
+  /* ─── Hero quick-nav (glass pill over the photo, [01] only) ─── */
+  .hero-nav {
+    position: absolute;
+    bottom: clamp(20px, 3%, 36px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    gap: 10px;
+    padding: 8px;
+    background: rgba(255, 251, 245, 0.18);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 251, 245, 0.25);
+    border-radius: 9999px;
+    box-shadow: 0 8px 32px rgba(26, 20, 16, 0.15);
+    max-width: calc(100% - 32px);
+  }
+  .hero-nav-btn {
+    padding: 12px 24px;
+    background: transparent;
+    color: #FFFBF5;
+    font-family: 'Onest', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: background .25s ease, color .25s ease, transform .25s ease;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .hero-nav-btn:hover {
+    background: #E97A3A;
+    color: #FFFBF5;
+    transform: scale(1.02);
+  }
+  .hero-nav-btn.active {
+    background: rgba(255, 251, 245, 0.15);
+  }
+  @media (max-width: 640px) {
+    .hero-nav {
+      gap: 6px;
+      bottom: 18px;
+      padding: 6px;
+      max-width: calc(100% - 24px);
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .hero-nav::-webkit-scrollbar { display: none; }
+    .hero-nav-btn {
+      padding: 10px 18px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+    }
+  }
+</style>
+
+  <!-- ─── External resource dependencies (referenced in inline JS, lifted for bundling) ─── -->
+  <meta name="ext-resource-dependency" content="assets/tool-brand-face.jpg"   data-resource-id="tool01" />
+  <meta name="ext-resource-dependency" content="assets/tool-product-flow.jpg" data-resource-id="tool02" />
+  <meta name="ext-resource-dependency" content="assets/tool-smart-catalog.jpg" data-resource-id="tool03" />
+  <meta name="ext-resource-dependency" content="assets/tool-banners.jpg"      data-resource-id="tool04" />
+  <meta name="ext-resource-dependency" content="assets/tool-video.mp4"        data-resource-id="tool05" />
+  <meta name="ext-resource-dependency" content="assets/tool-salary-calc.jpg"  data-resource-id="tool06" />
+  <meta name="ext-resource-dependency" content="assets/tool-wedding-site.jpg" data-resource-id="tool07" />
+  <meta name="ext-resource-dependency" content="assets/tool-prompts.mp4"      data-resource-id="tool08" />
+
+  <!-- ─── Bundler thumbnail (shown while assets unpack, also no-JS fallback) ─── -->
+  <template id="__bundler_thumbnail" data-bg-color="#7FB8D9">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="800" fill="#7FB8D9"/>
+      <g transform="translate(600 400)" fill="#1A1410" font-family="Georgia, serif" text-anchor="middle">
+        <text y="-30" font-size="180" font-weight="400" letter-spacing="-6">AI</text>
+        <text y="80" font-size="48" font-weight="500" letter-spacing="6">КЕМП · ЛЕТО 2026</text>
+        <circle cx="-300" cy="-160" r="14" fill="#E97A3A"/>
+        <circle cx="300"  cy="-160" r="14" fill="#E97A3A"/>
+        <circle cx="-300" cy="160"  r="14" fill="#E97A3A"/>
+        <circle cx="300"  cy="160"  r="14" fill="#E97A3A"/>
+      </g>
+    </svg>
+  </template>
+</head>
+<body class="bg-blue">
+
+<!-- Top sticky utility bar removed — hero-nav now lives on the hero photo -->
+
+<main class="stage-pad">
+
+<!-- ════════════ [01] HERO — portrait + giant overlay headline ════════════ -->
+<section id="s01" class="block bg-orange text-ink grid-marks hero-block">
+  <span class="gm gm-tl"></span><span class="gm gm-tr"></span><span class="gm gm-bl"></span><span class="gm gm-br"></span>
+  <div class="blockstrip text-ink marquee-strip">
+    <div class="marquee-track">
+      <span>AI-Кемп · Лето 2026</span><span>Старт 7 июня</span>
+      <span>AI-Кемп · Лето 2026</span><span>Старт 7 июня</span>
+      <span>AI-Кемп · Лето 2026</span><span>Старт 7 июня</span>
+      <span>AI-Кемп · Лето 2026</span><span>Старт 7 июня</span>
+      <span aria-hidden="true">AI-Кемп · Лето 2026</span><span aria-hidden="true">Старт 7 июня</span>
+      <span aria-hidden="true">AI-Кемп · Лето 2026</span><span aria-hidden="true">Старт 7 июня</span>
+      <span aria-hidden="true">AI-Кемп · Лето 2026</span><span aria-hidden="true">Старт 7 июня</span>
+      <span aria-hidden="true">AI-Кемп · Лето 2026</span><span aria-hidden="true">Старт 7 июня</span>
+    </div>
+  </div>
+  <!-- Portrait stage: full-width cropped photo with giant headline baked across the bottom -->
+  <div class="hero-stage">
+    <div class="hero-portrait">
+      <img src="assets/maria.jpg" alt="Мария Андреева" />
+      <div class="hero-portrait-tone"></div>
+      <!-- inner brand marquee across the top of the photo -->
+      <div class="hero-marquee">
+        <span>Мария Андреева</span><span>Мария Андреева</span><span>Мария Андреева</span><span>Мария Андреева</span><span>Мария Андреева</span><span>Мария Андреева</span>
+      </div>
+      <!-- corner labels on the photo, like the reference -->
+      <div class="hero-corner hero-corner-tl">
+        <span class="toggle">Лето 2026</span>
+      </div>
+      <div class="hero-corner hero-corner-tr caps-sm">
+        <div>07.06 — 31.08</div>
+        <div class="opacity-70">6 уроков · 3 месяца</div>
+      </div>
+    </div>
+    <!-- Giant overlay headline (sits on top of the photo, like ABOUT US in the ref) -->
+    <div class="hero-headline" aria-hidden="true">
+      <span class="hero-headline-1">ОНЛАЙН</span>
+      <span class="hero-headline-2">КЕМП</span>
+    </div>
+
+    <!-- Hero quick-nav — glass pill of 4 anchor links, only on the hero -->
+    <nav class="hero-nav" aria-label="Быстрая навигация">
+      <a href="#s09" data-target="s09" class="hero-nav-btn">Программа</a>
+      <a href="#s06" data-target="s06" class="hero-nav-btn">Кейсы</a>
+      <a href="#s14" data-target="s14" class="hero-nav-btn">Цена</a>
+      <a href="#s15" data-target="s15" class="hero-nav-btn">FAQ</a>
+    </nav>
+  </div>
+
+  <!-- Accessible h1 for SEO/SR (the visible giant text is decorative) -->
+  <h1 class="sr-only">Онлайн кемп · Мария Андреева · Лето 2026</h1>
+
+  <!-- ─── Mission block: full-width surf photo with top marquee + overlay headline ─── -->
+  <div class="mission">
+    <!-- Top marquee — echoes the reference's // DOORS ARE OPEN // strip -->
+    <div class="mission-marquee" aria-hidden="true">
+      <div class="mission-marquee-track">
+        <span>// НА ВОЛНЕ НОВЫХ ЗНАНИЙ</span>
+        <span>// ЛЕТО 2026</span>
+        <span>// НА ВОЛНЕ НОВЫХ ЗНАНИЙ</span>
+        <span>// ЛЕТО 2026</span>
+        <span>// НА ВОЛНЕ НОВЫХ ЗНАНИЙ</span>
+        <span>// ЛЕТО 2026</span>
+        <span>// НА ВОЛНЕ НОВЫХ ЗНАНИЙ</span>
+        <span>// ЛЕТО 2026</span>
+      </div>
+    </div>
+
+    <!-- Full-bleed horizontal surf photo with overlay text -->
+    <div class="mission-stage">
+      <img class="mission-photo-full" src="assets/surf-aerial-h.jpg" alt="Серферы на волне — метафора потока новых знаний" />
+      <div class="mission-tint" aria-hidden="true"></div>
+      <div class="mission-scrim" aria-hidden="true"></div>
+      <div class="mission-overlay">
+        <div class="mission-overlay-inner">
+          <p class="mission-eyeline"><span class="mission-eyeline-line"></span>За одно лето — поймайте волну</p>
+          <h2 class="mission-bigtitle">
+            <span>AI-АРСЕНАЛ</span>
+            <span>ЦВЕТОЧНОГО</span>
+          </h2>
+          <p class="mission-sub">Который заменит <mark>фотографа, дизайнера и&nbsp;программиста</mark> в&nbsp;вашем магазине.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats + secondary CTA below -->
+  <div class="blockpad pt-10">
+    <dl class="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-5 border-y border-ink/30 py-6">
+      <div><dt class="caps-sm opacity-65 mb-1">Уроков</dt><dd class="font-semibold text-base">6 встреч</dd></div>
+      <div><dt class="caps-sm opacity-65 mb-1">Длится</dt><dd class="font-semibold text-base">3 месяца</dd></div>
+      <div><dt class="caps-sm opacity-65 mb-1">Эфиры</dt><dd class="font-semibold text-base">11:00 МСК</dd></div>
+      <div><dt class="caps-sm opacity-65 mb-1">Записи</dt><dd class="font-semibold text-base">2 месяца после кемпа</dd></div>
+    </dl>
+
+    <div class="mt-9 flex flex-col sm:flex-row gap-4 sm:items-center">
+      <a href="#s16" class="btn btn-dark">Оставить заявку <span class="arr">→</span></a>
+      <div class="caps text-ink/75 max-w-[40ch]">Ведущая — Мария Андреева, эксперт по&nbsp;автоматизации цветочного бизнеса</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ [03] 8 AI-ИНСТРУМЕНТОВ ════════════ -->
+<section id="s03" class="block grid-marks tools-section" style="background:#7FB8D9; color:#1A1410;">
+  <span class="gm gm-tl"></span><span class="gm gm-tr"></span><span class="gm gm-bl"></span><span class="gm gm-br"></span>
+  <div class="blockstrip" style="color:#1A1410; opacity:.8;">
+    <span>AI-Кемп · Лето 2026</span><span>8 готовых инструментов</span><span>К 1 сентября — в магазине</span>
+    <span>AI-Кемп · Лето 2026</span><span>8 готовых инструментов</span>
+  </div>
+  <!-- Метка [03] убрана по запросу -->
+
+  <div class="blockpad pt-[88px]">
+    <h2 class="tools-headline">8 AI-инструментов для&nbsp;вашего магазина</h2>
+    <p class="tools-sub">Не&nbsp;теория, а&nbsp;готовые рабочие инструменты&nbsp;— каждый из&nbsp;них вы&nbsp;заберёте с&nbsp;собой и&nbsp;начнёте использовать в&nbsp;магазине сразу.</p>
+
+    <!-- Галерея из 8 карточек-телефонов -->
+    <div class="tools-grid">
+      <button type="button" class="tool-phone" data-tool="0" aria-label="Лицо бренда">
+        <div class="tool-screen">
+          <div class="tool-photo">
+            <span class="tool-chip">[01]</span>
+            <span class="tool-expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg></span>
+            <img src="assets/tool-brand-face.jpg" alt="Лицо бренда — модель магазина" />
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Лицо бренда</h3>
+            <p class="tool-desc">Фирменный персонаж магазина, который позирует с&nbsp;любыми вашими букетами в&nbsp;любых сценах. Заменяет фотомодель и&nbsp;фотосессии&nbsp;— экономия от&nbsp;25&nbsp;000&nbsp;₽ каждые полгода. Создаётся один раз, используется годами.</p>
+          </div>
+        </div>
+      </button>
+
+      <button type="button" class="tool-phone is-top" data-tool="1" aria-label="Поток карточек товара">
+        <div class="tool-screen">
+          <div class="tool-photo">
+            <span class="tool-chip">[02]</span>
+            <span class="tool-top" aria-label="Топ-карточка">🔥 ТОП</span>
+            <img src="assets/tool-product-flow.jpg" alt="Коллаж карточек товара" />
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Поток карточек товара</h3>
+            <p class="tool-desc">Один реальный букет → один кадр на&nbsp;телефон → 5–10 готовых карточек в&nbsp;премиум-визуале. Без фотостудии, фотографа и&nbsp;перевозки. Карточек на&nbsp;сайте становится в&nbsp;5–10 раз больше при тех&nbsp;же затратах на&nbsp;цветы.</p>
+          </div>
+        </div>
+      </button>
+
+      <button type="button" class="tool-phone" data-tool="2" aria-label="Умный каталог">
+        <div class="tool-screen">
+          <div class="tool-photo">
+            <span class="tool-chip">[03]</span>
+            <span class="tool-expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg></span>
+            <img src="assets/tool-smart-catalog.jpg" alt="Скриншот каталога магазина" />
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Умный каталог</h3>
+            <p class="tool-desc">Сначала тестируете сборку в&nbsp;каталоге и&nbsp;соцсетях&nbsp;— потом закупаете под подтверждённый спрос. Конец неликвиду в&nbsp;холодильнике и&nbsp;закупкам «на&nbsp;интуицию». В&nbsp;каталоге остаются только продающие букеты.</p>
+          </div>
+        </div>
+      </button>
+
+      <button type="button" class="tool-phone" data-tool="3" aria-label="Баннеры, сторис и заглушки">
+        <div class="tool-screen">
+          <div class="tool-photo">
+            <span class="tool-chip">[04]</span>
+            <span class="tool-expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg></span>
+            <img src="assets/tool-banners.jpg" alt="Мокап баннера с надписями" />
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Баннеры, сторис и заглушки</h3>
+            <p class="tool-desc">Готовый дизайн с&nbsp;надписями за&nbsp;15&nbsp;минут&nbsp;— без Figma, Photoshop и&nbsp;дизайнера на&nbsp;постоянке. Экономия 30–60&nbsp;тыс. в&nbsp;месяц на&nbsp;услугах дизайнера. Под любой повод, сезон и&nbsp;акцию.</p>
+          </div>
+        </div>
+      </button>
+
+      <button type="button" class="tool-phone" data-tool="4" aria-label="Видео и оживлённые карточки">
+        <div class="tool-screen">
+          <div class="tool-photo">
+            <span class="tool-chip">[05]</span>
+            <span class="tool-expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg></span>
+            <video src="assets/tool-video.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Оживлённая карточка товара"></video>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Видео и оживлённые карточки</h3>
+            <p class="tool-desc">Короткие ролики и&nbsp;оживлённые статичные карточки для рилсов, сторис и&nbsp;сайта. Без съёмки, монтажа и&nbsp;привлечения видеографа. Соцсети магазина перестают быть «как у&nbsp;всех».</p>
+          </div>
+        </div>
+      </button>
+
+      <button type="button" class="tool-phone is-top" data-tool="5" aria-label="AI-калькулятор зарплат флористов">
+        <div class="tool-screen">
+          <div class="tool-photo">
+            <span class="tool-chip">[06]</span>
+            <span class="tool-top" aria-label="Топ-карточка">🔥 ТОП</span>
+            <img src="assets/tool-salary-calc.jpg" alt="Калькулятор зарплат флористов на экране ноутбука" />
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">AI-калькулятор зарплат флористов</h3>
+            <p class="tool-desc">Постоянная ссылка с&nbsp;зашитыми формулами вашего магазина. Загружаете 2&nbsp;таблички&nbsp;— получаете готовые расчётные листы за&nbsp;15&nbsp;минут вместо 3–4 часов. Без ошибок, без обид от&nbsp;флористов, можно делегировать управляющему.</p>
+          </div>
+        </div>
+      </button>
+
+      <div role="button" tabindex="0" class="tool-phone is-top" data-tool="6" aria-label="Сайт-визитка для свадебного депозита">
+        <div class="tool-screen">
+          <div class="tool-photo">
+            <span class="tool-chip">[07]</span>
+            <span class="tool-top" aria-label="Топ-карточка">🔥 ТОП</span>
+            <img src="assets/tool-wedding-site.jpg" alt="Мокап сайта-визитки молодожёнов" />
+            <a class="tool-link" href="https://mariakrusty.github.io/" target="_blank" rel="noopener noreferrer" aria-label="Открыть рабочий пример сайта SI FLORA">
+              <span class="tool-link-label">Открыть пример
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </span>
+            </a>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Сайт-визитка для свадебного депозита</h3>
+            <p class="tool-desc">Новая платная услуга в&nbsp;прайсе магазина&nbsp;— персональная страница молодожёнам с&nbsp;кнопкой «Пополнить баланс» и&nbsp;QR-кодом для пригласительных. От&nbsp;100&nbsp;000&nbsp;₽ предоплаты с&nbsp;одной свадьбы. У&nbsp;конкурентов в&nbsp;городе такой услуги нет. <strong>Нажмите на&nbsp;картинку&nbsp;— посмотрите рабочий пример.</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="tool-phone" data-tool="7" aria-label="Личная библиотека промтов">
+        <div class="tool-screen">
+          <div class="tool-photo">
+            <span class="tool-chip">[08]</span>
+            <span class="tool-expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg></span>
+            <video src="assets/tool-prompts.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Пример генерации из промта"></video>
+            <div class="tool-prompt" aria-hidden="true">
+              <div class="tool-prompt-label">prompt — gerbera</div>
+              <div class="tool-prompt-text"><span class="tool-prompt-bracket">[</span>a studio shot of a beautiful gerbera flower with two toned petals in peach and deep pink, and a vibrant green and magenta center, held by a long green stem. the flower is dynamically angled upwards and to the right, prominently displayed against a uniform, neutral gray background. the petals show natural curves and soft shadows.<span class="tool-prompt-bracket-close">]</span></div>
+            </div>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Личная библиотека промтов</h3>
+            <p class="tool-desc">Все рабочие промты, шаблоны и&nbsp;пресеты под ваш магазин&nbsp;— навсегда у&nbsp;вас в&nbsp;копилке. Каждый новый сотрудник магазина сразу включается в&nbsp;работу с&nbsp;готовыми инструментами. Никакого «начинаем с&nbsp;нуля».</p>
+          </div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Fullscreen overlay for expanded tool view -->
+    <div class="tools-overlay" id="toolsOverlay" role="dialog" aria-modal="true" aria-labelledby="toolsOverlayTitle" hidden>
+      <button type="button" class="tools-nav prev" id="toolsPrev" aria-label="Предыдущий">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <div class="tools-overlay-inner">
+        <button type="button" class="tools-close" id="toolsClose" aria-label="Закрыть">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <div class="tool-phone" id="toolsOverlayCard"></div>
+        <div class="tools-counter" id="toolsCounter">01 / 08</div>
+      </div>
+      <button type="button" class="tools-nav next" id="toolsNext" aria-label="Следующий">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+
+    <script>
+    (function(){
+      const TOOLS = [{"num":"01","title":"Лицо бренда","_resid":"tool01","img":"","alt":"Лицо бренда — модель магазина","hint":"Лицо бренда — модель/персонаж магазина","desc":"Фирменный персонаж магазина, который позирует с&nbsp;любыми вашими букетами в&nbsp;любых сценах. Заменяет фотомодель и&nbsp;фотосессии&nbsp;— экономия от&nbsp;25&nbsp;000&nbsp;₽ каждые полгода. Создаётся один раз, используется годами."},{"num":"02","title":"Поток карточек товара","_resid":"tool02","img":"","alt":"Коллаж карточек товара","hint":"Коллаж карточек товара — один букет в разных сценах","desc":"Один реальный букет → один кадр на&nbsp;телефон → 5–10 готовых карточек в&nbsp;премиум-визуале. Без фотостудии, фотографа и&nbsp;перевозки. Карточек на&nbsp;сайте становится в&nbsp;5–10 раз больше при тех&nbsp;же затратах на&nbsp;цветы."},{"num":"03","title":"Умный каталог","_resid":"tool03","img":"","alt":"Скриншот каталога магазина","hint":"Скриншот каталога магазина с сеткой карточек","desc":"Сначала тестируете сборку в&nbsp;каталоге и&nbsp;соцсетях&nbsp;— потом закупаете под подтверждённый спрос. Конец неликвиду в&nbsp;холодильнике и&nbsp;закупкам «на&nbsp;интуицию». В&nbsp;каталоге остаются только продающие букеты."},{"num":"04","title":"Баннеры, сторис и заглушки","_resid":"tool04","img":"","alt":"Мокап баннера с надписями","hint":"Мокап сторис или баннеры с надписями","desc":"Готовый дизайн с&nbsp;надписями за&nbsp;15&nbsp;минут&nbsp;— без Figma, Photoshop и&nbsp;дизайнера на&nbsp;постоянке. Экономия 30–60&nbsp;тыс. в&nbsp;месяц на&nbsp;услугах дизайнера. Под любой повод, сезон и&nbsp;акцию."},{"num":"05","title":"Видео и оживлённые карточки","_resid":"tool05","video":"","hint":"Кадр из видео или vertical-video мокап","desc":"Короткие ролики и&nbsp;оживлённые статичные карточки для рилсов, сторис и&nbsp;сайта. Без съёмки, монтажа и&nbsp;привлечения видеографа. Соцсети магазина перестают быть «как у&nbsp;всех»."},{"num":"06","title":"AI-калькулятор зарплат флористов","_resid":"tool06","img":"","alt":"Калькулятор зарплат флористов на экране ноутбука","hint":"Скриншот таблицы расчёта зарплаты","desc":"Постоянная ссылка с&nbsp;зашитыми формулами вашего магазина. Загружаете 2&nbsp;таблички&nbsp;— получаете готовые расчётные листы за&nbsp;15&nbsp;минут вместо 3–4 часов. Без ошибок, без обид от&nbsp;флористов, можно делегировать управляющему."},{"num":"07","title":"Сайт-визитка для свадебного депозита","_resid":"tool07","img":"","alt":"Мокап сайта-визитки молодожёнов","link":"https://mariakrusty.github.io/","hint":"Мокап сайта-визитки молодожёнов","desc":"Новая платная услуга в&nbsp;прайсе магазина&nbsp;— персональная страница молодожёнам с&nbsp;кнопкой «Пополнить баланс» и&nbsp;QR-кодом для пригласительных. От&nbsp;100&nbsp;000&nbsp;₽ предоплаты с&nbsp;одной свадьбы. У&nbsp;конкурентов в&nbsp;городе такой услуги нет. <strong>Нажмите на&nbsp;картинку&nbsp;— посмотрите рабочий пример.</strong>","desc":"Новая платная услуга в&nbsp;прайсе магазина&nbsp;— персональная страница молодожёнам с&nbsp;кнопкой «Пополнить баланс» и&nbsp;QR-кодом для пригласительных. От&nbsp;100&nbsp;000&nbsp;₽ предоплаты с&nbsp;одной свадьбы. У&nbsp;конкурентов в&nbsp;городе такой услуги нет."},{"num":"08","title":"Личная библиотека промтов","_resid":"tool08","video":"","prompt":{"label":"prompt — gerbera","text":"a studio shot of a beautiful gerbera flower with two toned petals in peach and deep pink, and a vibrant green and magenta center, held by a long green stem. the flower is dynamically angled upwards and to the right, prominently displayed against a uniform, neutral gray background. the petals show natural curves and soft shadows."},"hint":"Скриншот библиотеки промтов или папки заметок","desc":"Все рабочие промты, шаблоны и&nbsp;пресеты под ваш магазин&nbsp;— навсегда у&nbsp;вас в&nbsp;копилке. Каждый новый сотрудник магазина сразу включается в&nbsp;работу с&nbsp;готовыми инструментами. Никакого «начинаем с&nbsp;нуля»."}];
+      // Remap tool image/video URLs to bundled resource blobs at runtime
+      (function(){
+        const R = (typeof window !== 'undefined' && window.__resources) || {};
+        TOOLS.forEach(t => {
+          if (t._resid && R[t._resid]) {
+            if (t.video !== undefined) t.video = R[t._resid];
+            else t.img = R[t._resid];
+          }
+        });
+      })();
+      const EXPAND_ICON = "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"15 3 21 3 21 9\"></polyline><polyline points=\"9 21 3 21 3 15\"></polyline><line x1=\"21\" y1=\"3\" x2=\"14\" y2=\"10\"></line><line x1=\"3\" y1=\"21\" x2=\"10\" y2=\"14\"></line></svg>";
+      const overlay   = document.getElementById('toolsOverlay');
+      const card      = document.getElementById('toolsOverlayCard');
+      const counter   = document.getElementById('toolsCounter');
+      const btnClose  = document.getElementById('toolsClose');
+      const btnPrev   = document.getElementById('toolsPrev');
+      const btnNext   = document.getElementById('toolsNext');
+      let current = 0;
+      let lastFocus = null;
+
+      function renderCard(i, direction){
+        const t = TOOLS[i];
+        let photoInner;
+        if (t.video) {
+          photoInner = '<video src="'+ t.video +'" autoplay muted loop playsinline preload="metadata"></video>';
+          if (t.prompt) {
+            photoInner += '<div class="tool-prompt" aria-hidden="true">'+
+              '<div class="tool-prompt-label">'+ t.prompt.label +'</div>'+
+              '<div class="tool-prompt-text"><span class="tool-prompt-bracket">[</span>'+ t.prompt.text +'<span class="tool-prompt-bracket-close">]</span></div>'+
+            '</div>';
+          }
+        } else if (t.img && t.link) {
+          photoInner = '<img src="'+ t.img +'" alt="'+ (t.alt || t.title) +'" />'+
+            '<a class="tool-link" href="'+ t.link +'" target="_blank" rel="noopener noreferrer" aria-label="Открыть рабочий пример">'+
+              '<span class="tool-link-label">Открыть пример '+
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>'+
+              '</span>'+
+            '</a>';
+        } else if (t.img) {
+          photoInner = '<img src="'+ t.img +'" alt="'+ (t.alt || t.title) +'" />';
+        } else {
+          photoInner = '<span class="tool-photo-hint">'+ t.hint +'</span>';
+        }
+        const expandHtml = t.link ? '' : '<span class="tool-expand" aria-hidden="true">'+ EXPAND_ICON +'</span>';
+        card.innerHTML = ''+
+          '<div class="tool-screen">'+
+            '<div class="tool-photo">'+
+              '<span class="tool-chip">['+ t.num +']</span>'+
+              expandHtml +
+              photoInner +
+            '</div>'+
+            '<div class="tool-content">'+
+              '<h3 class="tool-title" id="toolsOverlayTitle">'+ t.title +'</h3>'+
+              '<p class="tool-desc">'+ t.desc +'</p>'+
+            '</div>'+
+          '</div>';
+        counter.textContent = (i+1).toString().padStart(2,'0') + ' / 08';
+        // slide animation
+        if (direction !== undefined) {
+          const inner = card.parentElement;
+          inner.animate(
+            [
+              { opacity: 0, transform: 'translateX('+ (direction>0?30:-30) +'px) scale(.98)' },
+              { opacity: 1, transform: 'translateX(0) scale(1)' }
+            ],
+            { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)' }
+          );
+        }
+      }
+
+      function openOverlay(i){
+        current = i;
+        lastFocus = document.activeElement;
+        renderCard(i);
+        overlay.hidden = false;
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        // double rAF so the transition runs from 0
+        requestAnimationFrame(()=> requestAnimationFrame(()=> overlay.classList.add('shown')));
+        setTimeout(()=> btnClose.focus(), 50);
+      }
+      function closeOverlay(){
+        overlay.classList.remove('shown');
+        setTimeout(()=>{
+          overlay.classList.remove('open');
+          overlay.hidden = true;
+          document.body.style.overflow = '';
+          if (lastFocus && lastFocus.focus) lastFocus.focus();
+        }, 320);
+      }
+      function step(d){
+        current = (current + d + TOOLS.length) % TOOLS.length;
+        renderCard(current, d);
+      }
+
+      document.querySelectorAll('.tools-grid .tool-phone').forEach(el => {
+        el.addEventListener('click', (e) => {
+          // If user clicked an internal link (image-as-link), let the link handle it
+          if (e.target.closest('a')) return;
+          openOverlay(parseInt(el.dataset.tool, 10));
+        });
+        el.addEventListener('keydown', (e) => {
+          if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('a')) {
+            e.preventDefault();
+            openOverlay(parseInt(el.dataset.tool, 10));
+          }
+        });
+      });
+      btnClose.addEventListener('click', closeOverlay);
+      btnPrev.addEventListener('click', () => step(-1));
+      btnNext.addEventListener('click', () => step(1));
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) closeOverlay(); });
+      document.addEventListener('keydown', (e) => {
+        if (overlay.hidden) return;
+        if (e.key === 'Escape') closeOverlay();
+        else if (e.key === 'ArrowLeft') step(-1);
+        else if (e.key === 'ArrowRight') step(1);
+      });
+    })();
+    </script>
+
+    <div class="mt-14 flex justify-center">
+      <a href="#s16" class="btn btn-dark">Оставить заявку <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ [09] ПРОГРАММА ════════════ -->
+<section id="s09" class="block bg-cream text-ink grid-marks">
+  <span class="gm gm-tl"></span><span class="gm gm-tr"></span><span class="gm gm-bl"></span><span class="gm gm-br"></span>
+  <div class="blockstrip text-ink/80 marquee-strip">
+    <div class="marquee-track">
+      <span>Programme</span><span>6 уроков за 3 месяца</span><span>июнь — август 2026</span>
+      <span>Programme</span><span>6 уроков за 3 месяца</span><span>июнь — август 2026</span>
+      <span>Programme</span><span>6 уроков за 3 месяца</span><span>июнь — август 2026</span>
+      <span aria-hidden="true">Programme</span><span aria-hidden="true">6 уроков за 3 месяца</span><span aria-hidden="true">июнь — август 2026</span>
+      <span aria-hidden="true">Programme</span><span aria-hidden="true">6 уроков за 3 месяца</span><span aria-hidden="true">июнь — август 2026</span>
+      <span aria-hidden="true">Programme</span><span aria-hidden="true">6 уроков за 3 месяца</span><span aria-hidden="true">июнь — август 2026</span>
+    </div>
+  </div>
+  <!-- Номер секции убран по запросу -->
+
+  <div class="blockpad pt-[88px] pb-[clamp(80px,8vw,120px)] relative">
+    <!-- giant stencil header — single centered word at the top -->
+    <div class="absolute left-0 right-0 top-[60px] flex justify-center pointer-events-none select-none">
+      <div class="stencil text-orange text-[clamp(80px,15vw,200px)]" style="-webkit-text-stroke: 1.5px currentColor; opacity:.55;">ПРОГРАММА</div>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 items-end relative" style="padding-top: clamp(120px, 14vw, 200px);">
+      <div class="lg:col-span-12">
+        <div class="toggle text-ink/80 mb-7">Полная программа</div>
+        <h2 class="display h-block">6 уроков<br/>за&nbsp;3&nbsp;месяца</h2>
+      </div>
+    </div>
+
+    <div class="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- L1 -->
+      <article class="card-paper p-7 flex flex-col gap-5">
+        <div class="flex items-baseline justify-between gap-3">
+          <div class="caps-sm opacity-55">Урок 01</div>
+          <div class="caps-sm text-ochre opacity-70">07.06 · вс</div>
+        </div>
+        <div class="l-date display text-ochre">07.06 <span class="l-time">11:00</span></div>
+        <h3 class="l-title">Старт в&nbsp;AI: вход в&nbsp;нейросети и&nbsp;первые промты</h3>
+        <p class="text-[14.5px] leading-[1.6] text-ink/75">В&nbsp;этом уроке снимаем все технические страхи и&nbsp;сразу получаем первый практический результат для своего магазина.</p>
+        <div><div class="caps-sm mb-2 opacity-55">Внутри</div><p class="text-[14px] leading-snug">Обзор арсенала кемпа · структура промта · Perplexity · аудит отзывов магазина · первая генерация в&nbsp;Midjourney</p></div>
+        <div class="mt-auto border-t hairline pt-4"><div class="caps-sm mb-2 opacity-55">Что унесёте</div><p class="text-[14.5px] font-medium leading-snug">Готовый отчёт по&nbsp;репутации магазина + первые AI-картинки</p></div>
+      </article>
+
+      <!-- L2 -->
+      <article class="card-paper p-7 flex flex-col gap-5">
+        <div class="flex items-baseline justify-between gap-3">
+          <div class="caps-sm opacity-55">Урок 02</div>
+          <div class="caps-sm text-ochre opacity-70">23.06 · вт</div>
+        </div>
+        <div class="l-date display text-ochre">23.06 <span class="l-time">11:00</span></div>
+        <h3 class="l-title">Лицо бренда и&nbsp;первая карточка товара</h3>
+        <p class="text-[14.5px] leading-[1.6] text-ink/75">Создаём персонажа магазина&nbsp;— лицо вашего бренда, которое будет позировать с&nbsp;любыми вашими букетами в&nbsp;любых сценах.</p>
+        <div><div class="caps-sm mb-2 opacity-55">Внутри</div><p class="text-[14px] leading-snug">Углублённый Midjourney · создание фирменного персонажа · усложнение промтов · Nano-banana · первая карточка</p></div>
+        <div class="mt-auto border-t hairline pt-4"><div class="caps-sm mb-2 opacity-55">Что унесёте</div><p class="text-[14.5px] font-medium leading-snug">Готовое лицо бренда + первая карточка товара</p></div>
+      </article>
+
+      <!-- L3 -->
+      <article class="card-paper p-7 flex flex-col gap-5">
+        <div class="flex items-baseline justify-between gap-3">
+          <div class="caps-sm opacity-55">Урок 03</div>
+          <div class="caps-sm text-ochre opacity-70">07.07 · вт</div>
+        </div>
+        <div class="l-date display text-ochre">07.07 <span class="l-time">11:00</span></div>
+        <h3 class="l-title">Премиум-карточки: ракурсы, upscale, тестирование</h3>
+        <p class="text-[14.5px] leading-[1.6] text-ink/75">Переходим в&nbsp;премиум-сегмент визуала. Превращаем каталог из&nbsp;«надеемся, купят» в&nbsp;умный каталог тестируемых сборок.</p>
+        <div><div class="caps-sm mb-2 opacity-55">Внутри</div><p class="text-[14px] leading-snug">Upscale · работа с&nbsp;пропорциями · серия ракурсов · баннеры · тестирование сборок до&nbsp;закупки</p></div>
+        <div class="mt-auto border-t hairline pt-4"><div class="caps-sm mb-2 opacity-55">Что унесёте</div><p class="text-[14.5px] font-medium leading-snug">Серия ракурсов + баннер + рабочая стратегия тестирования</p></div>
+      </article>
+
+      <!-- L4 -->
+      <article class="card-paper p-7 flex flex-col gap-5">
+        <div class="flex items-baseline justify-between gap-3">
+          <div class="caps-sm opacity-55">Урок 04</div>
+          <div class="caps-sm text-ochre opacity-70">23.07 · чт</div>
+        </div>
+        <div class="l-date display text-ochre">23.07 <span class="l-time">11:00</span></div>
+        <h3 class="l-title">Дизайн без дизайнера + видеоконтент</h3>
+        <p class="text-[14.5px] leading-[1.6] text-ink/75">Учимся делать дизайн без Figma и&nbsp;без дизайнера. И&nbsp;сразу&nbsp;— оживлять статичные карточки в&nbsp;короткие видео.</p>
+        <div><div class="caps-sm mb-2 opacity-55">Внутри</div><p class="text-[14px] leading-snug">Сети с&nbsp;надписями · баннер для сайта · сторис и&nbsp;заглушки · оживление карточки в&nbsp;видео · сценарии рилсов</p></div>
+        <div class="mt-auto border-t hairline pt-4"><div class="caps-sm mb-2 opacity-55">Что унесёте</div><p class="text-[14.5px] font-medium leading-snug">Баннер с&nbsp;надписью + 2&nbsp;сторис + заглушка + оживлённая карточка-видео</p></div>
+      </article>
+
+      <!-- L5 -->
+      <article class="card-paper p-7 flex flex-col gap-5">
+        <div class="flex items-baseline justify-between gap-3">
+          <div class="caps-sm opacity-55">Урок 05</div>
+          <div class="caps-sm text-ochre opacity-70">07.08 · пт</div>
+        </div>
+        <div class="l-date display text-ochre">07.08 <span class="l-time">11:00</span></div>
+        <h3 class="l-title">AI-помощники: расчёт ЗП и&nbsp;автоматизация рутины</h3>
+        <p class="text-[14.5px] leading-[1.6] text-ink/75">Самый «бизнесовый» урок кемпа. Учимся создавать своих AI-помощников.</p>
+        <div><div class="caps-sm mb-2 opacity-55">Внутри</div><p class="text-[14px] leading-snug">Продвинутые AI · расчётчик зарплат флористов · ABC-анализ · автоматизация закупок · точка безубыточности</p></div>
+        <div class="mt-auto border-t hairline pt-4"><div class="caps-sm mb-2 opacity-55">Что унесёте</div><p class="text-[14.5px] font-medium leading-snug">Готовый расчётчик ЗП + понимание, как автоматизировать любую рутину</p></div>
+      </article>
+
+      <!-- L6 -->
+      <article class="bg-blue text-ink p-7 flex flex-col gap-5">
+        <div class="flex items-baseline justify-between gap-3">
+          <div class="caps-sm text-ochre">Урок 06 · финал</div>
+          <div class="caps-sm text-ochre">23.08 · вс</div>
+        </div>
+        <div class="l-date display">23.08 <span class="l-time">11:00</span></div>
+        <h3 class="l-title">Сайт-визитка для молодожёнов + личный AI-арсенал</h3>
+        <p class="text-[14.5px] leading-[1.6] text-ink/80">Финал кемпа. Делаем новую услугу&nbsp;— сайт-визитку для свадебного депозита.</p>
+        <div><div class="caps-sm mb-2 opacity-60">Внутри</div><p class="text-[14px] leading-snug">Персональная страница пары · QR-код · продажа услуги молодожёнам · финальная сборка арсенала · дорожная карта на&nbsp;90&nbsp;дней</p></div>
+        <div class="mt-auto border-t border-ink/25 pt-4"><div class="caps-sm mb-2 opacity-60">Что унесёте</div><p class="text-[14.5px] font-medium leading-snug">Готовый шаблон сайта + полный AI-арсенал к&nbsp;1&nbsp;сентября</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ [02] ПОЧЕМУ ИМЕННО СЕЙЧАС — COMPACT ════════════ -->
+<section id="s02" class="block bg-blue text-ink grid-marks">
+  <span class="gm gm-tl"></span><span class="gm gm-tr"></span><span class="gm gm-bl"></span><span class="gm gm-br"></span>
+  <div class="blockstrip text-ink/80 marquee-strip">
+    <div class="marquee-track">
+      <span>Why this summer</span><span>Сезонное окно</span><span>Лето 2026</span>
+      <span>Why this summer</span><span>Сезонное окно</span><span>Лето 2026</span>
+      <span>Why this summer</span><span>Сезонное окно</span><span>Лето 2026</span>
+      <span aria-hidden="true">Why this summer</span><span aria-hidden="true">Сезонное окно</span><span aria-hidden="true">Лето 2026</span>
+      <span aria-hidden="true">Why this summer</span><span aria-hidden="true">Сезонное окно</span><span aria-hidden="true">Лето 2026</span>
+      <span aria-hidden="true">Why this summer</span><span aria-hidden="true">Сезонное окно</span><span aria-hidden="true">Лето 2026</span>
+    </div>
+  </div>
+
+  <div class="blockpad pt-[88px] pb-[clamp(64px,7vw,96px)]">
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+      <div class="lg:col-span-7">
+        <div class="toggle text-ink/80 mb-6">Почему именно сейчас</div>
+        <h2 class="display text-[clamp(40px,5vw,76px)] leading-[0.98] tracking-[-0.02em]" style="text-wrap:balance;">
+          Пока все отдыхают&nbsp;— вы́ <span class="text-ochre">обгоняете</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 mt-12 lg:mt-14 items-start">
+      <!-- Left: seasonal pressure -->
+      <div class="lg:col-span-6 space-y-5 text-[16px] leading-[1.6] text-ink/85 max-w-[52ch]">
+        <p>В&nbsp;цветочном бизнесе высокий сезон не&nbsp;оставляет вам выбора. 1&nbsp;сентября&nbsp;— выпускные. Дальше&nbsp;— учителя, 14&nbsp;февраля, 8&nbsp;марта, мужской день. Пики идут один за&nbsp;другим, без передышки.</p>
+        <p class="text-[clamp(20px,2vw,26px)] leading-[1.25] font-semibold tracking-[-0.01em] pt-2">В&nbsp;сезон некогда расти. Только продавать.</p>
+      </div>
+
+      <!-- Right: summer window -->
+      <div class="lg:col-span-6 lg:border-l border-ink/25 lg:pl-12">
+        <div class="caps-sm text-ochre mb-4">А лето</div>
+        <p class="text-[clamp(20px,2.2vw,28px)] leading-[1.18] tracking-[-0.01em] font-semibold mb-7">Единственное окно в&nbsp;году, когда:</p>
+        <ul class="why-check-list">
+          <li><span class="why-check" aria-hidden="true">✓</span><span>Можно учиться без аврала</span></li>
+          <li><span class="why-check" aria-hidden="true">✓</span><span>Можно тестировать без потерь</span></li>
+          <li><span class="why-check" aria-hidden="true">✓</span><span>Можно перестраивать магазин без давления выручки</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Hero punchline -->
+    <div class="mt-14 lg:mt-20 border-y border-ink/25 py-10 lg:py-14">
+      <p class="display text-[clamp(28px,3.6vw,52px)] leading-[1.02] tracking-[-0.02em] max-w-[28ch]" style="font-weight:700; text-wrap:balance;">
+        Пока ваши конкуренты в&nbsp;отпуске на&nbsp;море, вы&nbsp;наращиваете <mark class="why-mark">конкурентное преимущество</mark>.
+      </p>
+    </div>
+
+    <div class="mt-12 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+      <div class="lg:col-span-7">
+        <p class="text-[17px] leading-[1.55] text-ink/85 max-w-[58ch]">
+          К&nbsp;1&nbsp;сентября у&nbsp;вас в&nbsp;магазине появятся инструменты, которых у&nbsp;них нет. Вы&nbsp;войдёте в&nbsp;высокий сезон впервые в&nbsp;жизни не&nbsp;как все&nbsp;— а&nbsp;сильнее.
+        </p>
+      </div>
+      <div class="lg:col-span-5">
+        <p class="italic text-ink/75 text-[16px] leading-[1.5] max-w-[42ch]" style="font-family:'Georgia','Times New Roman',serif;">
+          Через год AI в&nbsp;цветочном будет нормой. Сегодня&nbsp;— ваш шанс.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ [05] ПРОВЕРЕНО — Maria photo + floating reviews ════════════ -->
+<section id="s05" class="block tested-section" style="background:#1A1410; color:#FFFBF5;">
+  <span class="gm gm-tl" style="color:#FFFBF5; opacity:.4;"></span><span class="gm gm-tr" style="color:#FFFBF5; opacity:.4;"></span><span class="gm gm-bl" style="color:#FFFBF5; opacity:.4;"></span><span class="gm gm-br" style="color:#FFFBF5; opacity:.4;"></span>
+
+  <!-- Full-bleed photo backdrop -->
+  <img class="tested-bg" src="assets/maria-feedback.jpg" alt="Мария Андреева" />
+  <div class="tested-bg-scrim" aria-hidden="true"></div>
+
+  <!-- Top corner labels -->
+  <div class="tested-corner-tl">отзывы выпускников</div>
+  <div class="tested-corner-tr">feedback</div>
+
+  <div class="tested-pad">
+    <!-- Stack of review cards on the right -->
+    <div class="review-stack">
+      <article class="review-card">
+        <header class="review-head">
+          <span class="review-avatar">Т</span>
+          <div class="review-meta">
+            <div class="review-name">Татьяна Р.</div>
+            <div class="review-sub">Выпускница «Прокачки»</div>
+          </div>
+          <div class="review-stars" aria-label="5 из 5">★★★★★</div>
+        </header>
+        <p class="review-text">С&nbsp;октября мой мир перестал быть прежним. Вчерашний урок взорвал мой мозг&nbsp;— эти таблички что-то невероятное. Искренне считаю, что мы&nbsp;сорвали джекпот.</p>
+        <footer class="review-foot">
+          <span class="review-icon" aria-hidden="true">👍 <b>12</b></span>
+          <span class="review-icon" aria-hidden="true">👎</span>
+          <span class="review-icon" aria-hidden="true">↗</span>
+        </footer>
+      </article>
+
+      <article class="review-card">
+        <header class="review-head">
+          <span class="review-avatar">М</span>
+          <div class="review-meta">
+            <div class="review-name">Мария К.</div>
+            <div class="review-sub">Выпускница «Прокачки»</div>
+          </div>
+          <div class="review-stars" aria-label="5 из 5">★★★★★</div>
+        </header>
+        <p class="review-text">Я&nbsp;совсем дилетант и&nbsp;долго боялась взяться за&nbsp;ИИ, но&nbsp;всё так доступно объясняется, что уже не&nbsp;страшно. Это нужно знать всем, иначе труба.</p>
+        <footer class="review-foot">
+          <span class="review-icon" aria-hidden="true">👍 <b>8</b></span>
+          <span class="review-icon" aria-hidden="true">👎</span>
+          <span class="review-icon" aria-hidden="true">↗</span>
+        </footer>
+      </article>
+
+      <article class="review-card">
+        <header class="review-head">
+          <span class="review-avatar">Е</span>
+          <div class="review-meta">
+            <div class="review-name">Елена С.</div>
+            <div class="review-sub">Выпускница «Прокачки»</div>
+          </div>
+          <div class="review-stars" aria-label="5 из 5">★★★★★</div>
+        </header>
+        <p class="review-text">Каждое занятие открываю что-то новое. В&nbsp;цветочных буднях хочется знаний понятных для нашей сферы. Маша, благодарю за&nbsp;курс по&nbsp;ИИ.</p>
+        <footer class="review-foot">
+          <span class="review-icon" aria-hidden="true">👍 <b>15</b></span>
+          <span class="review-icon" aria-hidden="true">👎</span>
+          <span class="review-icon" aria-hidden="true">↗</span>
+        </footer>
+      </article>
+    </div>
+  </div>
+
+  <!-- Single-line headline running along the bottom -->
+  <h2 class="tested-headline">
+    Программа уже проверена 8-месячной <span style="color:#E97A3A;">«Прокачкой»</span>
+  </h2>
+</section>
+
+<!-- ════════════ [06] КЕЙС 1 — КАРТОЧКИ ════════════ -->
+<section id="s06" class="block bg-cream text-ink grid-marks case-section">
+  <span class="gm gm-tl"></span><span class="gm gm-tr"></span><span class="gm gm-bl"></span><span class="gm gm-br"></span>
+  <div class="blockstrip text-ink/80 marquee-strip">
+    <div class="marquee-track">
+      <span>Case 01</span><span>Карточки товара</span><span>×10 быстрее</span><span>×5 дешевле</span>
+      <span>Case 01</span><span>Карточки товара</span><span>×10 быстрее</span><span>×5 дешевле</span>
+      <span>Case 01</span><span>Карточки товара</span><span>×10 быстрее</span><span>×5 дешевле</span>
+      <span aria-hidden="true">Case 01</span><span aria-hidden="true">Карточки товара</span><span aria-hidden="true">×10 быстрее</span><span aria-hidden="true">×5 дешевле</span>
+      <span aria-hidden="true">Case 01</span><span aria-hidden="true">Карточки товара</span><span aria-hidden="true">×10 быстрее</span><span aria-hidden="true">×5 дешевле</span>
+    </div>
+  </div>
+
+  <div class="blockpad pt-[88px]">
+
+    <!-- Hero of the case: editorial split — headline left, phone-mock with orchid right -->
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+      <div class="lg:col-span-7">
+        <div class="toggle text-ink/80 mb-6">Кейс №1 · Карточки товара</div>
+        <h2 class="display text-[clamp(40px,5vw,76px)] leading-[0.98] tracking-[-0.02em]" style="text-wrap:balance;">
+          Карточки товара&nbsp;— <span class="text-ochre">в&nbsp;10&nbsp;раз быстрее</span> и&nbsp;<span class="text-ochre">в&nbsp;5&nbsp;раз дешевле</span>
+        </h2>
+        <p class="mt-7 text-[17px] leading-[1.55] text-ink/75 max-w-[52ch]">
+          Один реальный букет вместо целого съёмочного дня. Цветы остаются на&nbsp;витрине или у&nbsp;клиента, а&nbsp;на&nbsp;сайт уходят 5–10 готовых карточек в&nbsp;премиум-визуале.
+        </p>
+      </div>
+      <div class="lg:col-span-5">
+        <!-- Phone-card mock, echoes the tools section -->
+        <div class="case-phone">
+          <div class="case-screen">
+            <span class="case-chip">[01]</span>
+            <img src="assets/case-cards-collage.jpg" alt="Коллаж из 9 карточек из одного букета" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Headline numbers — giant editorial pair, ×10 and ×5 -->
+    <div class="mt-16 lg:mt-20 grid sm:grid-cols-2 gap-10 lg:gap-16 border-y border-ink/20 py-10 lg:py-14">
+      <div class="flex items-start gap-6 lg:gap-8">
+        <div class="display text-orange text-[clamp(80px,11vw,160px)] leading-[0.82] flex-none">×10</div>
+        <div class="pt-3">
+          <div class="caps-sm text-ochre mb-2">Быстрее</div>
+          <p class="text-[16px] leading-[1.5] max-w-[28ch]">Сняли букет на&nbsp;телефон в&nbsp;магазине — получили 5–10 карточек в&nbsp;разных сценах. Без перевозок и&nbsp;фотостудии.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-6 lg:gap-8">
+        <div class="display text-orange text-[clamp(80px,11vw,160px)] leading-[0.82] flex-none">×5</div>
+        <div class="pt-3">
+          <div class="caps-sm text-ochre mb-2">Дешевле</div>
+          <p class="text-[16px] leading-[1.5] max-w-[28ch]">Ноль рублей на&nbsp;аренду студии, фотографа, машину и&nbsp;списание букетов. Только ваши цветы и&nbsp;телефон.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Before / After — paired soft cards (22px radius family from s05) -->
+    <div class="mt-14 grid lg:grid-cols-2 gap-5 lg:gap-6">
+      <article class="case-card case-card-paper">
+        <div class="case-card-head">
+          <span class="caps-sm text-ochre">Как сейчас</span>
+          <span class="caps-sm opacity-50">Без AI</span>
+        </div>
+        <h3 class="display text-[clamp(24px,2.4vw,32px)] leading-[1.05] tracking-[-0.015em] mb-6">
+          Цветочные магазины делают карточки так
+        </h3>
+        <ol class="case-list">
+          <li><span class="case-li-num">01</span><span>Собирают букеты в&nbsp;студии магазина</span></li>
+          <li><span class="case-li-num">02</span><span>Заказывают машину, перевозят в&nbsp;фотостудию</span></li>
+          <li><span class="case-li-num">03</span><span>Отвлекают флористов от&nbsp;клиентов</span></li>
+          <li><span class="case-li-num">04</span><span>Платят за&nbsp;аренду фотостудии</span></li>
+          <li><span class="case-li-num">05</span><span>Платят фотографу</span></li>
+          <li><span class="case-li-num">06</span><span>Снимают за&nbsp;день ~15&nbsp;букетов</span></li>
+          <li><span class="case-li-num">07</span><span>Везут обратно</span></li>
+          <li><span class="case-li-num">08</span><span>Половину цветов списывают&nbsp;— букеты не&nbsp;пережили перевозку</span></li>
+          <li><span class="case-li-num">09</span><span>Магазин день не&nbsp;работает в&nbsp;полную силу</span></li>
+        </ol>
+        <p class="case-foot">И&nbsp;через месяц всё это снова с&nbsp;нуля.</p>
+      </article>
+
+      <article class="case-card case-card-blue">
+        <div class="case-card-head">
+          <span class="caps-sm text-ochre">После Урока 3 кемпа</span>
+          <span class="caps-sm opacity-60">С AI</span>
+        </div>
+        <h3 class="display text-[clamp(24px,2.4vw,32px)] leading-[1.05] tracking-[-0.015em] mb-6">
+          Технология без фотостудии и&nbsp;потерь
+        </h3>
+        <ul class="case-list">
+          <li><span class="obul"></span><span>Собрали букет прямо в&nbsp;магазине</span></li>
+          <li><span class="obul"></span><span>Сняли на&nbsp;телефон по&nbsp;правильным ракурсам (научим)</span></li>
+          <li><span class="obul"></span><span>AI&nbsp;делает из&nbsp;одного букета 5–10 премиум-карточек в&nbsp;разных сценах</span></li>
+          <li><span class="obul"></span><span>Букет ставим в&nbsp;холодильник или отдаём клиенту&nbsp;— ноль списаний</span></li>
+        </ul>
+
+        <!-- Bright equation banner -->
+        <div class="case-equation" role="note">
+          <span class="case-eq-line">Один букет</span>
+          <span class="case-eq-mark" aria-hidden="true">=</span>
+          <span class="case-eq-line">Один кадр на&nbsp;телефон</span>
+          <span class="case-eq-mark" aria-hidden="true">=</span>
+          <span class="case-eq-line case-eq-line-final">5–10 готовых карточек на&nbsp;сайт</span>
+        </div>
+      </article>
+    </div>
+
+    <!-- Smart catalog: 4-step phone-card lite row -->
+    <div class="mt-20">
+      <div class="toggle text-ink/80 mb-5">Бонус кейса</div>
+      <h3 class="display text-[clamp(28px,3.4vw,48px)] leading-[1.0] tracking-[-0.02em] max-w-[24ch]">
+        И&nbsp;самое главное&nbsp;— каталог теперь <span class="text-ochre">умный</span>
+      </h3>
+      <p class="mt-5 text-[16px] text-ink/75 max-w-[60ch]">Раньше магазин собирал букет «вслепую»&nbsp;— на&nbsp;интуиции. С&nbsp;AI-карточками магазин сначала тестирует, потом производит.</p>
+
+      <ol class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+        <li class="case-step">
+          <div class="case-step-letter">A</div>
+          <div class="case-step-label">Шаг 1</div>
+          <p>Поставили карточку в&nbsp;каталог, сторис или рилс</p>
+        </li>
+        <li class="case-step">
+          <div class="case-step-letter">B</div>
+          <div class="case-step-label">Шаг 2</div>
+          <p>Посмотрели реакцию&nbsp;— лайки, сохранения, переходы, заказы</p>
+        </li>
+        <li class="case-step">
+          <div class="case-step-letter">C</div>
+          <div class="case-step-label">Шаг 3 · Да</div>
+          <p>Зашёл&nbsp;— оставляем, тиражируем, закупаем цветы под спрос</p>
+        </li>
+        <li class="case-step">
+          <div class="case-step-letter">D</div>
+          <div class="case-step-label">Шаг 3 · Нет</div>
+          <p>Не&nbsp;зашёл&nbsp;— букет не&nbsp;собираем, цветы не&nbsp;закупаем</p>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Comparison table — clean editorial hairlines, no card wrap -->
+    <div class="mt-20">
+      <div class="caps-sm text-ochre mb-4">Экономика одного съёмочного дня</div>
+      <div class="case-table">
+        <div class="case-thead">
+          <div>Статья</div>
+          <div class="opacity-65">Без AI</div>
+          <div class="text-ochre">С AI после кемпа</div>
+        </div>
+        <div class="case-tbody">
+          <div class="case-row"><div>Аренда фотостудии</div><div class="opacity-65">Есть</div><div class="font-semibold">0&nbsp;₽</div></div>
+          <div class="case-row"><div>Гонорар фотографу</div><div class="opacity-65">Есть</div><div class="font-semibold">0&nbsp;₽</div></div>
+          <div class="case-row"><div>Перевозка цветов</div><div class="opacity-65">Есть</div><div class="font-semibold">0&nbsp;₽</div></div>
+          <div class="case-row"><div>Списание букетов (~50%)</div><div class="opacity-65">Есть</div><div class="font-semibold">0&nbsp;₽</div></div>
+          <div class="case-row"><div>Флористы оторваны от&nbsp;клиентов</div><div class="opacity-65">Целый день</div><div class="font-semibold">0</div></div>
+          <div class="case-row"><div>Получено карточек</div><div class="opacity-65">~15 за&nbsp;день</div><div class="font-semibold">50–100</div></div>
+          <div class="case-row"><div>Закупка цветов под неликвид</div><div class="opacity-65">На&nbsp;интуиции</div><div class="font-semibold">Под спрос</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Single-line bottom headline, echo of s05 -->
+  <h2 class="case-bottom-headline">
+    Один букет&nbsp;— <span class="text-ochre">5–10 карточек</span>. Без фотостудии. Без потерь.
+  </h2>
+</section>
+
+<!-- ════════════ [07] КЕЙС 2 — СВАДЕБНЫЙ ДЕПОЗИТ ════════════ -->
+<section id="s07" class="block bg-orange text-ink grid-marks case-section">
+  <span class="gm gm-tl"></span><span class="gm gm-tr"></span><span class="gm gm-bl"></span><span class="gm gm-br"></span>
+  <div class="blockstrip text-ink/80 marquee-strip">
+    <div class="marquee-track">
+      <span>Case 02</span><span>Свадебный депозит</span><span>+100 000 ₽ за вечер</span><span>Новая услуга в прайсе</span>
+      <span>Case 02</span><span>Свадебный депозит</span><span>+100 000 ₽ за вечер</span><span>Новая услуга в прайсе</span>
+      <span>Case 02</span><span>Свадебный депозит</span><span>+100 000 ₽ за вечер</span><span>Новая услуга в прайсе</span>
+      <span aria-hidden="true">Case 02</span><span aria-hidden="true">Свадебный депозит</span><span aria-hidden="true">+100 000 ₽ за вечер</span><span aria-hidden="true">Новая услуга в прайсе</span>
+      <span aria-hidden="true">Case 02</span><span aria-hidden="true">Свадебный депозит</span><span aria-hidden="true">+100 000 ₽ за вечер</span><span aria-hidden="true">Новая услуга в прайсе</span>
+    </div>
+  </div>
+
+  <div class="blockpad pt-[88px]">
+
+    <!-- Hero split: headline left, phone-mock wedding site right -->
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+      <div class="lg:col-span-7">
+        <div class="toggle text-ink/80 mb-6">Кейс №2 · Свадебный депозит</div>
+        <h2 class="display text-[clamp(40px,5vw,76px)] leading-[0.98] tracking-[-0.02em]" style="text-wrap:balance;">
+          Свадебный депозит&nbsp;— <span class="text-ink" style="color:#1A1410;">новая услуга</span>, которой <span class="text-ink underline decoration-[3px] underline-offset-[6px]">нет</span> у&nbsp;конкурентов
+        </h2>
+        <p class="mt-7 text-[17px] leading-[1.55] text-ink/80 max-w-[52ch]">
+          Гости пары пополняют её&nbsp;баланс у&nbsp;вас в&nbsp;магазине вместо букетов на&nbsp;свадьбу. Деньги вы&nbsp;получаете сразу, букеты выдаёте целый год.
+        </p>
+      </div>
+      <div class="lg:col-span-5">
+        <a class="case-phone case-phone-link" href="https://mariakrusty.github.io/" target="_blank" rel="noopener noreferrer" aria-label="Открыть рабочий пример сайта">
+          <div class="case-screen">
+            <span class="case-chip">[02]</span>
+            <img src="assets/tool-wedding-site.jpg" alt="Мокап сайта-визитки молодожёнов" />
+            <span class="case-phone-cta"><span>Открыть пример</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Editorial quote — the customer's own request -->
+    <div class="mt-16 lg:mt-20 border-y border-ink/25 py-10 lg:py-14">
+      <div class="caps-sm text-ink/60 mb-5">Знакомая ситуация — раз в месяц прилетает в каждый активный цветочный</div>
+      <blockquote class="case-bigquote">
+        <span class="case-bigquote-mark" aria-hidden="true">"</span>
+        <p>Мы&nbsp;не&nbsp;хотим, чтобы гости дарили нам букеты на&nbsp;свадьбу. Можно сделать так, чтобы они <em>скинулись нам на&nbsp;год свежих букетов</em> в&nbsp;вашем магазине?</p>
+        <footer class="caps-sm text-ink/55 mt-5">— Пара, которая выбирает ваш магазин</footer>
+      </blockquote>
+    </div>
+
+    <!-- Two paired cards: paper "Сегодня" vs ink-dark "После Урока 6" -->
+    <div class="mt-14 grid lg:grid-cols-2 gap-5 lg:gap-6">
+      <article class="case-card case-card-paper">
+        <div class="case-card-head">
+          <span class="caps-sm text-ochre">Сегодня</span>
+          <span class="caps-sm opacity-50">Без шаблона</span>
+        </div>
+        <h3 class="display text-[clamp(24px,2.4vw,32px)] leading-[1.05] tracking-[-0.015em] mb-6">
+          Что делает магазин в&nbsp;ответ
+        </h3>
+        <ol class="case-list">
+          <li><span class="case-li-num">01</span><span>Говорит «нам нужно подумать»</span></li>
+          <li><span class="case-li-num">02</span><span>Ищет программиста под персональную страницу</span></li>
+          <li><span class="case-li-num">03</span><span>Ищет дизайнера под обложку и&nbsp;вёрстку</span></li>
+          <li><span class="case-li-num">04</span><span>Считает бюджет на&nbsp;разработку</span></li>
+          <li><span class="case-li-num">05</span><span>В&nbsp;9&nbsp;случаях из&nbsp;10 отказывается</span></li>
+          <li><span class="case-li-num">06</span><span>…или теряет клиента</span></li>
+        </ol>
+        <p class="case-foot">Через месяц прилетает следующий такой запрос&nbsp;— и&nbsp;всё повторяется.</p>
+      </article>
+
+      <article class="case-card case-card-blue">
+        <div class="case-card-head">
+          <span class="caps-sm text-ochre">После Урока 6 кемпа</span>
+          <span class="caps-sm opacity-60">Готовый шаблон</span>
+        </div>
+        <h3 class="display text-[clamp(24px,2.4vw,32px)] leading-[1.05] tracking-[-0.015em] mb-6">
+          За&nbsp;один вечер по&nbsp;шаблону
+        </h3>
+        <ul class="case-list">
+          <li><span class="obul"></span><span>Персональная страница пары&nbsp;— фото, история, прелюдия знакомства</span></li>
+          <li><span class="obul"></span><span>Кнопка «Пополнить баланс» с&nbsp;готовой формой оплаты</span></li>
+          <li><span class="obul"></span><span>QR-код для пригласительных&nbsp;— гость пополняет в&nbsp;два касания</span></li>
+          <li><span class="obul"></span><span>Без программиста, без дизайнера, без затрат</span></li>
+        </ul>
+
+        <!-- Bright equation banner — money received -->
+        <div class="case-equation">
+          <span class="case-eq-line">Один вечер работы</span>
+          <span class="case-eq-mark" aria-hidden="true">=</span>
+          <span class="case-eq-line case-eq-line-final">от&nbsp;100&nbsp;000&nbsp;₽ предоплаты</span>
+        </div>
+      </article>
+    </div>
+
+    <!-- Big editorial number pair — economics of one wedding -->
+    <div class="mt-20">
+      <div class="toggle text-ink/80 mb-6">Считаем экономику одной свадьбы</div>
+      <h3 class="display text-[clamp(28px,3.4vw,48px)] leading-[1.0] tracking-[-0.02em] max-w-[24ch] mb-10">
+        Что получает магазин с&nbsp;<span class="text-ink underline decoration-[3px] underline-offset-[6px]">одной</span> свадьбы
+      </h3>
+
+      <div class="grid sm:grid-cols-2 gap-10 lg:gap-16 border-y border-ink/25 py-10 lg:py-14">
+        <div class="case-bignum-cell">
+          <div class="case-bignum">100&nbsp;000&nbsp;₽</div>
+          <div class="caps-sm text-ink/60 mt-4 mb-3">Предоплата на стол</div>
+          <p class="text-[16px] leading-[1.5] max-w-[40ch]">Гости пары пополняют баланс по&nbsp;~3&nbsp;000&nbsp;₽ с&nbsp;человека. Свадьба на&nbsp;30–50 гостей&nbsp;— от&nbsp;100&nbsp;000&nbsp;₽ сразу.</p>
+        </div>
+        <div class="case-bignum-cell">
+          <div class="case-bignum">+50</div>
+          <div class="caps-sm text-ink/60 mt-4 mb-3">Гостей увидят ваш QR</div>
+          <p class="text-[16px] leading-[1.5] max-w-[40ch]">Каждый гость держит ваш QR-код в&nbsp;руках. 50+ платёжеспособных контактов узнают про магазин&nbsp;— реклама за&nbsp;0&nbsp;₽.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-column: shop gets / couple gets -->
+    <div class="mt-14 grid md:grid-cols-2 gap-5 lg:gap-6">
+      <div class="case-card case-card-paper">
+        <div class="case-card-head">
+          <span class="caps-sm text-ochre">Что получает магазин</span>
+        </div>
+        <ul class="case-list">
+          <li><span class="obul"></span><span>Новая услуга в&nbsp;прайсе, которой нет у&nbsp;конкурентов в&nbsp;городе</span></li>
+          <li><span class="obul"></span><span>Предоплата на&nbsp;год вперёд&nbsp;— деньги сегодня, букеты потом</span></li>
+          <li><span class="obul"></span><span>Каждая свадьба = QR в&nbsp;руках у&nbsp;50+ платёжеспособных гостей</span></li>
+          <li><span class="obul"></span><span>Пара становится постоянным клиентом на&nbsp;52&nbsp;заказа вперёд</span></li>
+        </ul>
+      </div>
+      <div class="case-card case-card-paper">
+        <div class="case-card-head">
+          <span class="caps-sm text-ochre">Что получает пара</span>
+        </div>
+        <ul class="case-list">
+          <li><span class="obul"></span><span>Красивый персональный лендинг под их&nbsp;историю</span></li>
+          <li><span class="obul"></span><span>Уникальный подарок вместо охапки завядших букетов</span></li>
+          <li><span class="obul"></span><span>Свежие цветы каждую неделю целый год</span></li>
+          <li><span class="obul"></span><span>Память о&nbsp;дне свадьбы, которая длится</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom closing line, echo of s05 / s06 — conversational -->
+  <h2 class="case-bottom-headline case-bottom-headline-soft">
+    «После кемпа вы&nbsp;сами сделаете такую страничку за&nbsp;пару часов вечером дома. С&nbsp;одной свадьбы вы&nbsp;получите <span class="text-ink underline decoration-[3px] underline-offset-[6px]">от&nbsp;100&nbsp;000&nbsp;₽</span> предоплаты и&nbsp;ещё <span class="text-ink underline decoration-[3px] underline-offset-[6px]">50 гостей</span> со&nbsp;свадьбы узнают про&nbsp;ваш магазин.»
+  </h2>
+</section>
+
+<!-- ════════════ [08] КЕЙС 3 — ЗАРПЛАТА ════════════ -->
+<section id="s08" class="block bg-blue text-ink grid-marks case-section">
+  <span class="gm gm-tl"></span><span class="gm gm-tr"></span><span class="gm gm-bl"></span><span class="gm gm-br"></span>
+  <div class="blockstrip text-ink/80 marquee-strip">
+    <div class="marquee-track">
+      <span>Case 03</span><span>Зарплата флористов</span><span>15 минут вместо 4 часов</span><span>Постоянная ссылка</span>
+      <span>Case 03</span><span>Зарплата флористов</span><span>15 минут вместо 4 часов</span><span>Постоянная ссылка</span>
+      <span>Case 03</span><span>Зарплата флористов</span><span>15 минут вместо 4 часов</span><span>Постоянная ссылка</span>
+      <span aria-hidden="true">Case 03</span><span aria-hidden="true">Зарплата флористов</span><span aria-hidden="true">15 минут вместо 4 часов</span><span aria-hidden="true">Постоянная ссылка</span>
+      <span aria-hidden="true">Case 03</span><span aria-hidden="true">Зарплата флористов</span><span aria-hidden="true">15 минут вместо 4 часов</span><span aria-hidden="true">Постоянная ссылка</span>
+    </div>
+  </div>
+
+  <div class="blockpad pt-[88px]">
+
+    <!-- Hero split -->
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+      <div class="lg:col-span-7">
+        <div class="toggle text-ink/80 mb-6">Кейс №3 · Расчёт зарплаты</div>
+        <h2 class="display text-[clamp(40px,5vw,76px)] leading-[0.98] tracking-[-0.02em]" style="text-wrap:balance;">
+          Зарплата флористов&nbsp;— <span class="text-ochre">15&nbsp;минут</span> вместо <span class="text-ochre">4&nbsp;часов</span>
+        </h2>
+        <p class="mt-7 text-[17px] leading-[1.55] text-ink/80 max-w-[52ch]">
+          Постоянная ссылка с&nbsp;зашитыми формулами вашего магазина. Загружаете 2&nbsp;таблички — получаете готовые расчётные листы. Без ошибок, можно делегировать управляющему.
+        </p>
+      </div>
+      <div class="lg:col-span-5">
+        <div class="case-phone">
+          <div class="case-screen">
+            <span class="case-chip">[03]</span>
+            <img src="assets/tool-salary-calc.jpg" alt="AI-калькулятор зарплат флористов на экране ноутбука" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Big number pair, stacked -->
+    <div class="mt-16 lg:mt-20 grid sm:grid-cols-2 gap-10 lg:gap-16 border-y border-ink/25 py-10 lg:py-14">
+      <div class="case-bignum-cell">
+        <div class="case-bignum">15&nbsp;мин</div>
+        <div class="caps-sm text-ink/60 mt-4 mb-3">На расчёт всего магазина</div>
+        <p class="text-[16px] leading-[1.5] max-w-[40ch]">Загрузили 2&nbsp;таблички — получили сводную ведомость и&nbsp;расчётные листы по&nbsp;каждому флористу. Без ручных формул и&nbsp;перепроверки.</p>
+      </div>
+      <div class="case-bignum-cell">
+        <div class="case-bignum">−3–4&nbsp;ч</div>
+        <div class="caps-sm text-ink/60 mt-4 mb-3">Экономия каждый месяц</div>
+        <p class="text-[16px] leading-[1.5] max-w-[40ch]">Логика начислений вынесена в&nbsp;систему — больше не&nbsp;надо сидеть с&nbsp;Excel вечером. Можно делегировать управляющему.</p>
+      </div>
+    </div>
+
+    <!-- Paired cards: paper "Сейчас" vs ink-dark "После Урока 5" -->
+    <div class="mt-14 grid lg:grid-cols-2 gap-5 lg:gap-6">
+      <article class="case-card case-card-paper">
+        <div class="case-card-head">
+          <span class="caps-sm text-ochre">Сейчас</span>
+          <span class="caps-sm opacity-50">Каждый месяц</span>
+        </div>
+        <h3 class="display text-[clamp(24px,2.4vw,32px)] leading-[1.05] tracking-[-0.015em] mb-6">
+          Та&nbsp;самая Excel-таблица
+        </h3>
+        <ol class="case-list">
+          <li><span class="case-li-num">01</span><span>Сводите все цифры из&nbsp;смен, продаж, премий</span></li>
+          <li><span class="case-li-num">02</span><span>Проверяете каждого сотрудника отдельно</span></li>
+          <li><span class="case-li-num">03</span><span>Считаете в&nbsp;страхе ошибиться</span></li>
+          <li><span class="case-li-num">04</span><span>Объясняете каждому флористу, «за&nbsp;что и&nbsp;почему» вышло именно столько</span></li>
+          <li><span class="case-li-num">05</span><span>Тратите 3–4 часа стресса каждый месяц</span></li>
+        </ol>
+        <p class="case-foot">И&nbsp;так каждые 30&nbsp;дней.</p>
+      </article>
+
+      <article class="case-card case-card-ink">
+        <div class="case-card-head">
+          <span class="caps-sm" style="color:#E97A3A;">После Урока 5 кемпа</span>
+          <span class="caps-sm opacity-60" style="color:rgba(255,251,245,0.6);">Постоянная ссылка</span>
+        </div>
+        <h3 class="display text-[clamp(24px,2.4vw,32px)] leading-[1.05] tracking-[-0.015em] mb-6" style="color:#FFFBF5;">
+          Ваш персональный пресет
+        </h3>
+        <ul class="case-list case-list-light">
+          <li><span class="obul"></span><span>Загружаете табличку с&nbsp;днями выходов сотрудников</span></li>
+          <li><span class="obul"></span><span>Загружаете табличку с&nbsp;персональной выручкой</span></li>
+          <li><span class="obul"></span><span>Получаете готовую сводную таблицу + расчётные листы</span></li>
+          <li><span class="obul"></span><span>Можно делегировать управляющему — формулы зашиты, ошибки исключены</span></li>
+        </ul>
+
+        <div class="case-equation case-equation-dark">
+          <span class="case-eq-line">2 таблички</span>
+          <span class="case-eq-mark" aria-hidden="true">=</span>
+          <span class="case-eq-line case-eq-line-final">15&nbsp;минут — и зарплата готова</span>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- Bottom closer -->
+  <h2 class="case-bottom-headline case-bottom-headline-soft">
+    «После кемпа вы&nbsp;загружаете в&nbsp;свою постоянную ссылку 2&nbsp;таблички и&nbsp;получаете готовые расчётные листы за&nbsp;<span class="text-ink underline decoration-[3px] underline-offset-[6px]">15&nbsp;минут</span> — вместо <span class="text-ink underline decoration-[3px] underline-offset-[6px]">3–4 часов</span> стресса каждый месяц.»
+  </h2>
+</section>
+
+<!-- ════════════ [04] ДЛЯ КОГО ════════════ -->
+<section id="s04" class="block bg-cream text-ink grid-marks">
+  <span class="gm gm-tl"></span><span class="gm gm-tr"></span><span class="gm gm-bl"></span><span class="gm gm-br"></span>
+  <div class="blockstrip text-ink/80 marquee-strip">
+    <div class="marquee-track">
+      <span>Who it's for</span><span>Действующие владельцы</span><span>Цветочные магазины</span><span>Маленькие сети</span>
+      <span>Who it's for</span><span>Действующие владельцы</span><span>Цветочные магазины</span><span>Маленькие сети</span>
+      <span>Who it's for</span><span>Действующие владельцы</span><span>Цветочные магазины</span><span>Маленькие сети</span>
+      <span aria-hidden="true">Who it's for</span><span aria-hidden="true">Действующие владельцы</span><span aria-hidden="true">Цветочные магазины</span><span aria-hidden="true">Маленькие сети</span>
+      <span aria-hidden="true">Who it's for</span><span aria-hidden="true">Действующие владельцы</span><span aria-hidden="true">Цветочные магазины</span><span aria-hidden="true">Маленькие сети</span>
+    </div>
+  </div>
+
+  <div class="blockpad pt-[88px]">
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+      <div class="lg:col-span-7">
+        <div class="toggle text-ink/80 mb-6">Для кого этот кемп</div>
+        <h2 class="display text-[clamp(40px,5vw,76px)] leading-[0.98] tracking-[-0.02em]" style="text-wrap:balance;">
+          Вы&nbsp;— <span class="text-ochre">владелец</span> цветочного магазина или небольшой сети
+        </h2>
+      </div>
+      <div class="lg:col-span-5">
+        <p class="text-[17px] leading-[1.55] text-ink/80 max-w-[44ch]">
+          У&nbsp;вас есть всё, чтобы работать: помещение, флористы, поставщики, постоянные клиенты. Но&nbsp;вы&nbsp;упираетесь в&nbsp;одно и&nbsp;то&nbsp;же:
+        </p>
+      </div>
+    </div>
+
+    <article class="case-card case-card-paper mt-14">
+      <div class="case-card-head">
+        <span class="caps-sm text-ochre">6 знакомых проблем</span>
+        <span class="caps-sm opacity-50">Каждый день</span>
+      </div>
+      <ol class="case-list" style="display: grid; grid-template-columns: 1fr; gap: 0;">
+        <li><span class="case-li-num">01</span><span>Фотосессии&nbsp;— это раз в&nbsp;полгода, дорого, и&nbsp;каждая «съедает» половину букетов</span></li>
+        <li><span class="case-li-num">02</span><span>Карточек товара на&nbsp;сайте мало, а&nbsp;те что есть&nbsp;— не&nbsp;такие красивые, как у&nbsp;конкурентов в&nbsp;Москве</span></li>
+        <li><span class="case-li-num">03</span><span>Дизайнер на&nbsp;постоянке стоит дорого, а&nbsp;без него не&nbsp;выходят нормальные сторис</span></li>
+        <li><span class="case-li-num">04</span><span>Запросы про «свадебный депозит для гостей» прилетают раз в&nbsp;месяц&nbsp;— и&nbsp;каждый раз вы&nbsp;отказываете</span></li>
+        <li><span class="case-li-num">05</span><span>Зарплата флористам считается по&nbsp;3–4 часа каждый месяц, с&nbsp;риском ошибиться</span></li>
+        <li><span class="case-li-num">06</span><span>Хочется расти, но&nbsp;кажется, что для следующего уровня нужны деньги на&nbsp;штатных дизайнера, копирайтера и&nbsp;программиста</span></li>
+      </ol>
+    </article>
+  </div>
+
+  <h2 class="case-bottom-headline case-bottom-headline-soft">
+    Если узнали себя&nbsp;— <span class="text-ochre">кемп для&nbsp;вас.</span> Каждую из&nbsp;шести проблем мы&nbsp;закроем за&nbsp;три месяца.
+  </h2>
+</section>
+
+<!-- ════════════ [10] КАК ПРОХОДИТ ════════════ -->
+<section id="s10" class="block bg-orange text-ink grid-marks">
+  <span class="gm gm-tl"></span><span class="gm gm-tr"></span><span class="gm gm-bl"></span><span class="gm gm-br"></span>
+  <div class="blockstrip text-ink/80 marquee-strip">
+    <div class="marquee-track">
+      <span>Format</span><span>Как проходит обучение</span><span>Live · Записи · Чат</span><span>6 уроков · 3 месяца</span>
+      <span>Format</span><span>Как проходит обучение</span><span>Live · Записи · Чат</span><span>6 уроков · 3 месяца</span>
+      <span>Format</span><span>Как проходит обучение</span><span>Live · Записи · Чат</span><span>6 уроков · 3 месяца</span>
+      <span aria-hidden="true">Format</span><span aria-hidden="true">Как проходит обучение</span><span aria-hidden="true">Live · Записи · Чат</span><span aria-hidden="true">6 уроков · 3 месяца</span>
+      <span aria-hidden="true">Format</span><span aria-hidden="true">Как проходит обучение</span><span aria-hidden="true">Live · Записи · Чат</span><span aria-hidden="true">6 уроков · 3 месяца</span>
+    </div>
+  </div>
+
+  <div class="blockpad pt-[88px]">
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+      <div class="lg:col-span-12">
+        <div class="toggle text-ink/80 mb-6">Формат</div>
+        <h2 class="display text-[clamp(40px,5vw,76px)] leading-[0.98] tracking-[-0.02em]" style="text-wrap:balance;">
+          Как проходит <span class="text-ink underline decoration-[3px] underline-offset-[6px]">обучение</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+      <article class="case-step">
+        <div class="case-step-letter">01</div>
+        <div class="case-step-label">Live · Вебинары</div>
+        <p><strong>Каждые 2&nbsp;недели</strong> в&nbsp;11:00 МСК, по&nbsp;1.5–2 часа. Урок&nbsp;— разбор инструмента, ответы на&nbsp;вопросы в&nbsp;прямом эфире.</p>
+      </article>
+      <article class="case-step">
+        <div class="case-step-letter">02</div>
+        <div class="case-step-label">Записи · 2 месяца после кемпа</div>
+        <p>Все уроки в&nbsp;записи. Смотрите, когда удобно, пересматривайте любой фрагмент. Доступ на&nbsp;2&nbsp;месяца после кемпа.</p>
+      </article>
+      <article class="case-step">
+        <div class="case-step-letter">03</div>
+        <div class="case-step-label">Методички</div>
+        <p><strong>За&nbsp;день до&nbsp;урока</strong> прилетают видео-инструкции, ссылки на&nbsp;нейросети и&nbsp;пресеты&nbsp;— на&nbsp;урок приходите подготовленными.</p>
+      </article>
+      <article class="case-step">
+        <div class="case-step-letter">04</div>
+        <div class="case-step-label">Закрытый чат</div>
+        <p><strong>3&nbsp;месяца общения</strong> с&nbsp;равными. Только действующие владельцы цветочных&nbsp;— никаких блогеров, фрилансеров и&nbsp;«около темы».</p>
+      </article>
+      <article class="case-step">
+        <div class="case-step-letter">05</div>
+        <div class="case-step-label">Шаблоны</div>
+        <p><strong>Готовые промты,</strong> пресеты, заготовки страниц. Копируете и&nbsp;адаптируете под свой магазин — без «начинаем с&nbsp;чистого листа».</p>
+      </article>
+      <article class="case-step">
+        <div class="case-step-letter">06</div>
+        <div class="case-step-label">Разборы домашек</div>
+        <p><strong>Персональная обратная связь</strong> на&nbsp;каждое домашнее задание в&nbsp;чате. Мария лично смотрит ваш результат и&nbsp;даёт правки.</p>
+      </article>
+    </div>
+  </div>
+
+  <h2 class="case-bottom-headline case-bottom-headline-soft">
+    «Урок раз в&nbsp;две недели + домашка с&nbsp;телефона. С&nbsp;<span class="text-ink underline decoration-[3px] underline-offset-[6px]">3–4&nbsp;часами в&nbsp;неделю</span> вы&nbsp;успеваете всё&nbsp;— и&nbsp;магазин, и&nbsp;учёбу.»
+  </h2>
+</section>
+
+<!-- ════════════ [13] НЕ ДЛЯ ВСЕХ ════════════ -->
+<section id="s13" class="block grid-marks case-section" style="background:#1A1410; color:#FFFBF5;">
+  <span class="gm gm-tl" style="color:#FFFBF5; opacity:.4;"></span><span class="gm gm-tr" style="color:#FFFBF5; opacity:.4;"></span><span class="gm gm-bl" style="color:#FFFBF5; opacity:.4;"></span><span class="gm gm-br" style="color:#FFFBF5; opacity:.4;"></span>
+  <div class="blockstrip marquee-strip" style="color:rgba(255,251,245,0.75);">
+    <div class="marquee-track">
+      <span>Filter</span><span>Это не для всех</span><span>Сознательный выбор</span><span>Только равные</span>
+      <span>Filter</span><span>Это не для всех</span><span>Сознательный выбор</span><span>Только равные</span>
+      <span>Filter</span><span>Это не для всех</span><span>Сознательный выбор</span><span>Только равные</span>
+      <span aria-hidden="true">Filter</span><span aria-hidden="true">Это не для всех</span><span aria-hidden="true">Сознательный выбор</span><span aria-hidden="true">Только равные</span>
+      <span aria-hidden="true">Filter</span><span aria-hidden="true">Это не для всех</span><span aria-hidden="true">Сознательный выбор</span><span aria-hidden="true">Только равные</span>
+    </div>
+  </div>
+
+  <div class="blockpad pt-[88px]">
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+      <div class="lg:col-span-7">
+        <div class="toggle mb-6" style="color:rgba(255,251,245,0.85);">Сознательный фильтр</div>
+        <h2 class="display text-[clamp(40px,5vw,76px)] leading-[0.98] tracking-[-0.02em]" style="text-wrap:balance; color:#FFFBF5;">
+          Это <span style="color:#E97A3A;">не&nbsp;для всех</span>. И&nbsp;это сознательный выбор
+        </h2>
+      </div>
+      <div class="lg:col-span-5">
+        <p class="text-[17px] leading-[1.55] max-w-[44ch]" style="color:rgba(255,251,245,0.75);">
+          В&nbsp;группе только равные. Когда в&nbsp;чате одни действующие владельцы&nbsp;— обсуждения в&nbsp;10&nbsp;раз глубже, разборы кейсов в&nbsp;10&nbsp;раз полезнее, нетворкинг приносит реальные контакты на&nbsp;годы вперёд.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-14 grid lg:grid-cols-2 gap-5 lg:gap-6">
+      <article class="case-card case-card-ink not-card-ink">
+        <div class="case-card-head">
+          <span class="caps-sm" style="color:#ff7a6f;">Это НЕ для вас</span>
+          <span class="caps-sm opacity-60" style="color:rgba(255,251,245,0.6);">✕ Стоп-лист</span>
+        </div>
+        <h3 class="display text-[clamp(24px,2.4vw,32px)] leading-[1.05] tracking-[-0.015em] mb-6" style="color:#FFFBF5;">
+          Лучше пройти мимо, если
+        </h3>
+        <ul class="case-list case-list-light">
+          <li><span class="not-x" aria-hidden="true">✕</span><span>Только думаете открыть цветочный</span></li>
+          <li><span class="not-x" aria-hidden="true">✕</span><span>Интересно «попробовать AI просто так»</span></li>
+          <li><span class="not-x" aria-hidden="true">✕</span><span>Вы&nbsp;блогер или фрилансер «около темы»</span></li>
+          <li><span class="not-x" aria-hidden="true">✕</span><span>Девочки, которые ещё мечтают, а&nbsp;не&nbsp;работают</span></li>
+        </ul>
+      </article>
+
+      <article class="case-card case-card-blue">
+        <div class="case-card-head">
+          <span class="caps-sm text-ochre">Это для вас</span>
+          <span class="caps-sm opacity-60">✓ Группа</span>
+        </div>
+        <h3 class="display text-[clamp(24px,2.4vw,32px)] leading-[1.05] tracking-[-0.015em] mb-6">
+          Заходите, если
+        </h3>
+        <ul class="case-list">
+          <li><span class="obul"></span><span>Владелец цветочной студии или магазина</span></li>
+          <li><span class="obul"></span><span>Оплачиваете с&nbsp;расчётного счёта своего ИП</span></li>
+          <li><span class="obul"></span><span>Готовы вложить лето в&nbsp;развитие магазина</span></li>
+          <li><span class="obul"></span><span>Хотите общаться с&nbsp;равными&nbsp;— такими&nbsp;же владельцами, а&nbsp;не «девочками с&nbsp;мечтой»</span></li>
+        </ul>
+
+        <div class="case-equation">
+          <span class="case-eq-line">Закрытый чат кемпа на&nbsp;3&nbsp;месяца</span>
+          <span class="case-eq-mark" aria-hidden="true">=</span>
+          <span class="case-eq-line case-eq-line-final">только своя группа</span>
+        </div>
+
+        <p class="text-[15px] leading-[1.55] text-ink/80 mt-5">
+          Никакой каши из&nbsp;новичков и&nbsp;блогеров. В&nbsp;обычных чатах флористов серьёзные вопросы тонут. Здесь&nbsp;— <strong>каждое сообщение по&nbsp;делу, от&nbsp;равных</strong>.
+        </p>
+      </article>
+    </div>
+  </div>
+
+  <h2 class="case-bottom-headline case-bottom-headline-soft" style="color:#FFFBF5;">
+    «Вы&nbsp;не&nbsp;будете тратить время на&nbsp;чужие вопросы уровня <span class="not-quote">"а&nbsp;с&nbsp;чего начать продавать букеты"</span>. Здесь будут такие&nbsp;же владельцы, как&nbsp;вы.»
+  </h2>
+</section>
+
+<!-- ════════════ [14] СТОИМОСТЬ ════════════ -->
+<section id="s14" class="block bg-cream text-ink grid-marks case-section">
+  <span class="gm gm-tl"></span><span class="gm gm-tr"></span><span class="gm gm-bl"></span><span class="gm gm-br"></span>
+  <div class="blockstrip text-ink/80 marquee-strip">
+    <div class="marquee-track">
+      <span>Investment</span><span>50 000 ₽ за полный кемп</span><span>650 ₽ в день</span><span>Окупается одной свадьбой</span>
+      <span>Investment</span><span>50 000 ₽ за полный кемп</span><span>650 ₽ в день</span><span>Окупается одной свадьбой</span>
+      <span>Investment</span><span>50 000 ₽ за полный кемп</span><span>650 ₽ в день</span><span>Окупается одной свадьбой</span>
+      <span aria-hidden="true">Investment</span><span aria-hidden="true">50 000 ₽ за полный кемп</span><span aria-hidden="true">650 ₽ в день</span><span aria-hidden="true">Окупается одной свадьбой</span>
+      <span aria-hidden="true">Investment</span><span aria-hidden="true">50 000 ₽ за полный кемп</span><span aria-hidden="true">650 ₽ в день</span><span aria-hidden="true">Окупается одной свадьбой</span>
+    </div>
+  </div>
+
+  <div class="blockpad pt-[88px]">
+
+    <!-- Hero split: price left, summer-treats price grid right -->
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+      <div class="lg:col-span-7">
+        <div class="toggle text-ink/80 mb-6">Стоимость кемпа</div>
+        <div class="case-bignum" style="font-size:clamp(80px,12vw,180px);">50&nbsp;000&nbsp;₽</div>
+        <p class="text-[17px] leading-[1.55] text-ink/80 max-w-[42ch] mt-5">
+          6&nbsp;уроков, 3&nbsp;месяца, закрытый чат, все материалы. Записи всех уроков доступны 2&nbsp;месяца после кемпа.
+        </p>
+      </div>
+      <div class="lg:col-span-5">
+        <div class="case-card case-card-paper">
+          <div class="case-card-head">
+            <span class="caps-sm text-ochre">В день</span>
+            <span class="caps-sm opacity-50">~ 77 дней</span>
+          </div>
+          <div class="case-bignum" style="font-size:clamp(56px,7vw,96px);">650&nbsp;₽</div>
+          <p class="text-[15px] leading-[1.55] text-ink/75 mt-4">
+            Меньше, чем один летний выход за&nbsp;кофе. Каждый день обучения&nbsp;— дешевле круассана.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 phone-mocks with summer treats (ice-cream / cappuccino / croissant) -->
+    <div class="mt-16 lg:mt-20">
+      <div class="caps-sm text-ochre mb-5">Летом это</div>
+      <h3 class="display text-[clamp(28px,3.4vw,48px)] leading-[1.0] tracking-[-0.02em] max-w-[26ch] mb-10">
+        650&nbsp;₽ в&nbsp;день&nbsp;— это <span class="text-ochre">одно из&nbsp;этого</span>
+      </h3>
+
+      <div class="treat-grid">
+        <article class="treat-card">
+          <div class="case-screen">
+            <span class="case-chip">[01]</span>
+            <img src="assets/price-icecream.jpg" alt="Шарики мороженого на ложке" />
+          </div>
+          <div class="treat-content">
+            <div class="caps-sm text-ochre">Мороженое</div>
+            <p class="treat-line">Растает за&nbsp;15&nbsp;минут&nbsp;— и&nbsp;нет.</p>
+          </div>
+        </article>
+        <article class="treat-card">
+          <div class="case-screen">
+            <span class="case-chip">[02]</span>
+            <img src="assets/price-cappuccino.jpg" alt="Капучино с латте-артом" />
+          </div>
+          <div class="treat-content">
+            <div class="caps-sm text-ochre">Капучино</div>
+            <p class="treat-line">Выпьется за&nbsp;5&nbsp;минут&nbsp;— и&nbsp;нет.</p>
+          </div>
+        </article>
+        <article class="treat-card">
+          <div class="case-screen">
+            <span class="case-chip">[03]</span>
+            <img src="assets/price-croissant.jpg" alt="Свежие круассаны" />
+          </div>
+          <div class="treat-content">
+            <div class="caps-sm text-ochre">Круассан</div>
+            <p class="treat-line">Съестся за&nbsp;3&nbsp;минуты&nbsp;— и&nbsp;нет.</p>
+          </div>
+        </article>
+      </div>
+
+      <p class="text-[clamp(18px,1.8vw,22px)] leading-[1.45] text-ink/85 max-w-[58ch] mt-10">
+        Лето есть лето&nbsp;— эти деньги вы&nbsp;и&nbsp;так потратите. <strong>А&nbsp;AI-арсенал останется.</strong>
+      </p>
+    </div>
+
+    <!-- Paired cards: что входит / окупаемость -->
+    <div class="mt-16 grid lg:grid-cols-2 gap-5 lg:gap-6">
+      <article class="case-card case-card-paper">
+        <div class="case-card-head">
+          <span class="caps-sm text-ochre">Что входит</span>
+          <span class="caps-sm opacity-50">11 пунктов</span>
+        </div>
+        <h3 class="display text-[clamp(24px,2.4vw,32px)] leading-[1.05] tracking-[-0.015em] mb-6">
+          Всё, что вы&nbsp;заберёте с&nbsp;собой
+        </h3>
+        <ul class="case-list">
+          <li><span class="obul"></span><span>6&nbsp;live-уроков с&nbsp;Марией Андреевой по&nbsp;1.5–2 часа</span></li>
+          <li><span class="obul"></span><span>Записи всех уроков доступны 2&nbsp;месяца после кемпа</span></li>
+          <li><span class="obul"></span><span>Предурочные методички и&nbsp;видео-инструкции</span></li>
+          <li><span class="obul"></span><span>Закрытый чат участников на&nbsp;3&nbsp;месяца</span></li>
+          <li><span class="obul"></span><span>Готовые промты, шаблоны и&nbsp;пресеты</span></li>
+          <li><span class="obul"></span><span>Разбор домашних работ в&nbsp;чате</span></li>
+          <li><span class="obul"></span><span>Готовое лицо бренда магазина</span></li>
+          <li><span class="obul"></span><span>Технология производства карточек без фотостудии</span></li>
+          <li><span class="obul"></span><span>AI-калькулятор зарплаты флористов</span></li>
+          <li><span class="obul"></span><span>Шаблон сайта-визитки для свадебных депозитов</span></li>
+          <li><span class="obul"></span><span>Личная библиотека промтов под ваш магазин</span></li>
+        </ul>
+      </article>
+
+      <article class="case-card case-card-ink">
+        <div class="case-card-head">
+          <span class="caps-sm" style="color:#E97A3A;">Окупаемость</span>
+          <span class="caps-sm opacity-60" style="color:rgba(255,251,245,0.6);">К 1 сентября</span>
+        </div>
+        <h3 class="display text-[clamp(24px,2.4vw,32px)] leading-[1.05] tracking-[-0.015em] mb-6" style="color:#FFFBF5;">
+          Кемп окупится сам
+        </h3>
+        <ul class="case-list case-list-light">
+          <li><span class="obul"></span><span>1&nbsp;свадебный депозит — <strong>от&nbsp;100&nbsp;000&nbsp;₽</strong> в&nbsp;кассе</span></li>
+          <li><span class="obul"></span><span>1&nbsp;фотосессия, которая теперь не&nbsp;нужна — <strong>25–40&nbsp;тыс. ₽</strong></span></li>
+          <li><span class="obul"></span><span>3&nbsp;месяца без дизайнера — <strong>от&nbsp;90&nbsp;тыс. ₽</strong> экономии</span></li>
+          <li><span class="obul"></span><span>Оплата с&nbsp;ИП&nbsp;— уходит в&nbsp;затраты бизнеса</span></li>
+        </ul>
+
+        <div class="case-equation case-equation-dark">
+          <span class="case-eq-line">50&nbsp;000&nbsp;₽</span>
+          <span class="case-eq-mark" aria-hidden="true">=</span>
+          <span class="case-eq-line case-eq-line-final">1 свадебный депозит и&nbsp;всё лето вперёд</span>
+        </div>
+
+        <a href="#s16" class="btn btn-paper mt-7" style="align-self:flex-start;">Оставить заявку <span class="arr">→</span></a>
+      </article>
+    </div>
+  </div>
+
+  <h2 class="case-bottom-headline case-bottom-headline-soft">
+    «Мороженое <span class="text-ink underline decoration-[3px] underline-offset-[6px]">растает</span>, кофе <span class="text-ink underline decoration-[3px] underline-offset-[6px]">выпьется</span>, круассан <span class="text-ink underline decoration-[3px] underline-offset-[6px]">съестся</span>. А&nbsp;AI-арсенал останется&nbsp;— и&nbsp;к&nbsp;1&nbsp;сентября кемп окупится одним свадебным депозитом.»
+  </h2>
+</section>
+
+<!-- ════════════ [15] FAQ ════════════ -->
+<section id="s15" class="block bg-blue text-ink grid-marks">
+  <span class="gm gm-tl"></span><span class="gm gm-tr"></span><span class="gm gm-bl"></span><span class="gm gm-br"></span>
+  <div class="blockstrip text-ink/80 marquee-strip">
+    <div class="marquee-track">
+      <span>FAQ</span><span>Частые вопросы</span><span>7 ответов</span><span>Что ещё спрашивают</span>
+      <span>FAQ</span><span>Частые вопросы</span><span>7 ответов</span><span>Что ещё спрашивают</span>
+      <span>FAQ</span><span>Частые вопросы</span><span>7 ответов</span><span>Что ещё спрашивают</span>
+      <span aria-hidden="true">FAQ</span><span aria-hidden="true">Частые вопросы</span><span aria-hidden="true">7 ответов</span><span aria-hidden="true">Что ещё спрашивают</span>
+      <span aria-hidden="true">FAQ</span><span aria-hidden="true">Частые вопросы</span><span aria-hidden="true">7 ответов</span><span aria-hidden="true">Что ещё спрашивают</span>
+    </div>
+  </div>
+
+  <div class="blockpad pt-[88px]">
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14">
+      <div class="lg:col-span-4">
+        <div class="toggle text-ink/80 mb-6">FAQ</div>
+        <h2 class="display text-[clamp(40px,5vw,76px)] leading-[0.98] tracking-[-0.02em]" style="text-wrap:balance;">
+          Частые <span class="text-ochre">вопросы</span>
+        </h2>
+        <p class="mt-7 text-[16px] leading-[1.55] text-ink/75 max-w-[36ch]">Если ответа здесь нет&nbsp;— оставляйте заявку, мы&nbsp;ответим лично.</p>
+        <a href="#s16" class="btn btn-dark mt-7">Оставить заявку <span class="arr">→</span></a>
+      </div>
+
+      <div class="lg:col-span-8">
+        <div class="faq-stack">
+          <details>
+            <summary><span>Я&nbsp;ничего не&nbsp;понимаю в&nbsp;AI. Справлюсь?</span><span class="ic">+</span></summary>
+            <div class="ans">Да. Кемп рассчитан на&nbsp;новичков. Первый урок целиком посвящён регистрации, оплате нейросетей из&nbsp;России и&nbsp;базовой структуре промта. Если вы&nbsp;умеете писать в&nbsp;WhatsApp&nbsp;— вы&nbsp;справитесь. Это подтверждают 40&nbsp;выпускников «Прокачки», которые приходили с&nbsp;нуля.</div>
+          </details>
+          <details>
+            <summary><span>У&nbsp;меня магазин, мне некогда учиться. Сколько времени это займёт?</span><span class="ic">+</span></summary>
+            <div class="ans">2&nbsp;часа в&nbsp;день урока + 1–2 часа в&nbsp;неделю на&nbsp;домашку. Домашка делается с&nbsp;телефона. Если пропускаете живой эфир&nbsp;— смотрите запись в&nbsp;удобное время.</div>
+          </details>
+          <details>
+            <summary><span>А&nbsp;если я&nbsp;пропущу несколько занятий подряд?</span><span class="ic">+</span></summary>
+            <div class="ans">Записи всех уроков остаются доступными в&nbsp;течение 2&nbsp;месяцев после кемпа. Чат участников активен 3&nbsp;месяца, в&nbsp;нём можно догнать любой урок и&nbsp;задать вопросы.</div>
+          </details>
+          <details>
+            <summary><span>Что если AI быстро устаревает? Не&nbsp;будет&nbsp;ли это всё бесполезно через год?</span><span class="ic">+</span></summary>
+            <div class="ans">Нейросети меняются, но&nbsp;принципы работы с&nbsp;ними&nbsp;— нет. Вы&nbsp;научитесь не&nbsp;только конкретным инструментам, а&nbsp;методологии. Через год вы&nbsp;перенесёте свои навыки на&nbsp;любые новые сервисы.</div>
+          </details>
+          <details>
+            <summary><span>Оплата только с&nbsp;ИП&nbsp;— это точно? У&nbsp;меня самозанятость, можно?</span><span class="ic">+</span></summary>
+            <div class="ans">Только с&nbsp;расчётного счёта ИП или ООО. Это сознательное условие&nbsp;— мы&nbsp;собираем группу действующих предпринимателей. Если у&nbsp;вас пока самозанятость, кемп не&nbsp;для&nbsp;вас.</div>
+          </details>
+          <details>
+            <summary><span>Что если мне не&nbsp;подойдёт? Будет&nbsp;ли возврат?</span><span class="ic">+</span></summary>
+            <div class="ans">Возврат возможен в&nbsp;течение 7&nbsp;дней после старта кемпа. Условия в&nbsp;договоре.</div>
+          </details>
+          <details>
+            <summary><span>Можно&nbsp;ли работать с&nbsp;бесплатных версий нейросетей?</span><span class="ic">+</span></summary>
+            <div class="ans">Большая часть кемпа работает на&nbsp;бесплатных тарифах. По&nbsp;нескольким сервисам мы&nbsp;рекомендуем платные подписки (~&nbsp;$15–25 / мес).</div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ [16] FINAL CTA ════════════ -->
+<section id="s16" class="block bg-orange text-ink grid-marks case-section">
+  <span class="gm gm-tl"></span><span class="gm gm-tr"></span><span class="gm gm-bl"></span><span class="gm gm-br"></span>
+  <div class="blockstrip text-ink/80 marquee-strip">
+    <div class="marquee-track">
+      <span>Summer 2026</span><span>Старт 7 июня</span><span>Оставить заявку</span><span>До 1 сентября</span>
+      <span>Summer 2026</span><span>Старт 7 июня</span><span>Оставить заявку</span><span>До 1 сентября</span>
+      <span>Summer 2026</span><span>Старт 7 июня</span><span>Оставить заявку</span><span>До 1 сентября</span>
+      <span aria-hidden="true">Summer 2026</span><span aria-hidden="true">Старт 7 июня</span><span aria-hidden="true">Оставить заявку</span><span aria-hidden="true">До 1 сентября</span>
+      <span aria-hidden="true">Summer 2026</span><span aria-hidden="true">Старт 7 июня</span><span aria-hidden="true">Оставить заявку</span><span aria-hidden="true">До 1 сентября</span>
+    </div>
+  </div>
+
+  <div class="blockpad pt-[88px]">
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+      <div class="lg:col-span-7">
+        <div class="toggle text-ink/80 mb-6">Заявка</div>
+        <h2 class="display text-[clamp(40px,5vw,76px)] leading-[0.98] tracking-[-0.02em]" style="text-wrap:balance;">
+          Лето закончится <span class="text-ochre">одинаково</span> для всех — <br/>а&nbsp;1&nbsp;сентября все выйдут <span class="text-ink underline decoration-[3px] underline-offset-[6px]">разные</span>
+        </h2>
+      </div>
+      <div class="lg:col-span-5">
+        <p class="text-[17px] leading-[1.55] text-ink/80 max-w-[44ch]">
+          К&nbsp;1&nbsp;сентября у&nbsp;вас будет то, чего нет у&nbsp;конкурентов в&nbsp;городе: персонаж бренда, поток карточек товара без фотостудии, новая услуга «свадебный депозит» в&nbsp;прайсе, AI-калькулятор зарплат и&nbsp;личный AI-арсенал магазина.
+        </p>
+      </div>
+    </div>
+
+    <!-- Big number row + form -->
+    <div class="mt-16 lg:mt-20 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+      <div class="lg:col-span-5">
+        <div class="grid grid-cols-3 gap-4 border-y border-ink/25 py-8">
+          <div class="case-bignum-cell">
+            <div class="case-bignum" style="font-size:clamp(48px,5vw,72px);">6</div>
+            <div class="caps-sm text-ink/60 mt-2">Уроков</div>
+          </div>
+          <div class="case-bignum-cell">
+            <div class="case-bignum" style="font-size:clamp(48px,5vw,72px);">3</div>
+            <div class="caps-sm text-ink/60 mt-2">Месяца</div>
+          </div>
+          <div class="case-bignum-cell">
+            <div class="case-bignum" style="font-size:clamp(36px,4vw,56px);">07.06</div>
+            <div class="caps-sm text-ink/60 mt-2">Старт</div>
+          </div>
+        </div>
+
+        <div class="mt-8 space-y-4 text-[15.5px] leading-[1.6] text-ink/85 max-w-[44ch]">
+          <p>Прошлый год вы&nbsp;запомнили продажами, авралом, выручкой.</p>
+          <p>Этот год сделайте годом, когда вы&nbsp;шагнули вперёд.</p>
+        </div>
+      </div>
+
+      <form class="lg:col-span-7 case-form" onsubmit="event.preventDefault(); this.querySelector('button[type=submit] span:first-child').textContent='Заявка отправлена'; this.querySelector('button[type=submit] .arr').textContent='✓';">
+        <div class="case-card-head">
+          <span class="caps-sm text-ochre">Личный приём</span>
+          <span class="caps-sm opacity-50">Мария Андреева</span>
+        </div>
+        <h3 class="display text-[clamp(24px,2.4vw,32px)] leading-[1.05] tracking-[-0.015em] mb-6">
+          Оставьте заявку&nbsp;— я&nbsp;лично свяжусь с&nbsp;вами
+        </h3>
+
+        <div class="space-y-2">
+          <label class="block">
+            <span class="caps-sm opacity-60 block mb-0.5">Имя</span>
+            <input class="field" type="text" placeholder="Как вас зовут" required />
+          </label>
+          <label class="block">
+            <span class="caps-sm opacity-60 block mb-0.5">Телефон</span>
+            <input class="field" type="tel" placeholder="+7 ___ ___ __ __" required />
+          </label>
+          <label class="block">
+            <span class="caps-sm opacity-60 block mb-0.5">Магазин и город</span>
+            <input class="field" type="text" placeholder="Название студии, город" required />
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-dark w-full justify-center mt-9"><span>Отправить заявку</span><span class="arr">→</span></button>
+
+        <p class="text-[12px] leading-relaxed mt-5 text-ink/55">Нажимая кнопку, вы&nbsp;соглашаетесь с&nbsp;<a class="ulink" href="#">политикой конфиденциальности</a>.</p>
+      </form>
+    </div>
+  </div>
+
+  <h2 class="case-bottom-headline case-bottom-headline-soft">
+    «Старт <span class="text-ink underline decoration-[3px] underline-offset-[6px]">7&nbsp;июня</span>. К&nbsp;1&nbsp;сентября ваш магазин будет работать иначе. Это лето вы&nbsp;запомните как точку, после которой всё изменилось.»
+  </h2>
+</section>
+
+<!-- Footer (outside frame) -->
+<footer class="text-ink px-5 sm:px-7 py-12">
+<script>
+  // Hero nav — highlight the link whose target section is currently in view
+  (function () {
+    const btns = document.querySelectorAll('.hero-nav-btn[data-target]');
+    if (!btns.length) return;
+    const map = new Map();
+    btns.forEach(b => {
+      const el = document.getElementById(b.dataset.target);
+      if (el) map.set(el, b);
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          btns.forEach(b => b.classList.remove('active'));
+          map.get(e.target)?.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+    map.forEach((_, el) => io.observe(el));
+  })();
+</script>
+  <div class="grid md:grid-cols-3 gap-10 items-start">
+    <div>
+      <div class="display text-[clamp(22px,2.2vw,28px)]">AI-Кемп · Лето 2026</div>
+      <p class="caps-sm mt-3 opacity-65">6 уроков · 3 месяца · Старт 7 июня</p>
+    </div>
+    <div class="text-[14px] leading-relaxed text-ink/75 max-w-[40ch]">
+      Программа Марии Андреевой для действующих владельцев цветочных магазинов и&nbsp;небольших сетей.
+    </div>
+    <div class="caps-sm flex flex-col gap-2">
+      <a class="ulink" href="https://t.me/FloralBusiness">Telegram&nbsp;@FloralBusiness →</a>
+      <a class="ulink" href="https://instagram.com/andreeva_mf">Instagram&nbsp;@andreeva_mf →</a>
+      <a class="ulink" href="#s16">Оставить заявку →</a>
+    </div>
+  </div>
+  <div class="mt-10 pt-5 border-t border-ink/20 caps-sm opacity-65 flex flex-wrap justify-between gap-x-6 gap-y-3">
+    <span>© 2026 ИП Андреева Мария Фёдоровна</span>
+    <span class="flex flex-wrap gap-x-6 gap-y-2">
+      <a class="ulink" href="#">Договор-оферта</a>
+      <a class="ulink" href="#">Политика конфиденциальности</a>
+    </span>
+  </div>
+</footer>
+
+</main>
+
+</body>
+</html>
